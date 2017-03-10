@@ -1,0 +1,7 @@
+Komande se kucaju u command promptu u root-u projekta
+
+Add migration: dotnet ef migrations add InitModelCreation
+List migration: dotnet ef migrations list
+Remove last migration: dotnet ef migrations remove
+Apply migration: dotnet ef database update
+Revert migration: dotnet ef database update InitModelCreation

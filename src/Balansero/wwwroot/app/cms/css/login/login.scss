@@ -1,0 +1,35 @@
+﻿#login{
+	#validation-messages{
+		ul{
+			padding:0;
+		}
+		li{
+			font-size:14px;
+			display: block;
+			color: crimson;
+			margin-bottom:3px;
+		}
+	}
+
+	input[type]:not([type=checkbox]) {
+		font-family: 'Open Sans', sans-serif;
+		width: 100%;
+		border-top-style: none;
+		border-right-style: none;
+		border-bottom-style: none;
+		border-left-style: none;
+		line-height: 40px;
+		height: 40px;
+		float: left;
+		color: #666;
+		font-weight: 300;
+		padding-top: 1%;
+		padding-bottom: 1%;
+		box-shadow: 0 0 3px white inset, 0 1px 1px rgba(0, 0, 0, 0.1);
+		margin:10px 0 10px 0;
+		text-align:center;
+		min-width:250px;
+	}
+
+
+}

@@ -1,0 +1,118 @@
+﻿
+.content {
+	background: url('../../../img/football-background.jpg') center center / cover no-repeat;
+	z-index: 1;
+	position: absolute;
+	text-align: center;
+	
+	md-content{
+		background-color:transparent;
+	}
+
+	h1 {
+		color: white;
+		text-shadow: 0px 1px 1px rgba(27, 23, 26, 0.75);
+		vertical-align: middle;
+		position: relative;
+		font-size: 44px;
+		font-weight: 700;
+		line-height: 65px;
+		padding-bottom: 30px;
+		text-transform: uppercase;
+		
+		span {
+			color: white;
+			font-size: 30px;
+		}
+	}
+
+	p {
+		color: white;
+		font-family: 'Open Sans', sans-serif;
+		font-size: 18px;
+		font-weight: 300;
+		letter-spacing: 1px;
+		padding-bottom: 15px;
+	}
+
+	.register-form{
+		background: rgba(0,0,0,0.5);
+		color:white;
+		padding:10px 30px;
+
+		hr{
+			border-color:$dominant-color;
+			margin-bottom:20px;
+		}
+
+		#validation-messages{
+			ul{
+				padding:0;
+			}
+			li{
+				font-size:14px;
+				display: block;
+				color: crimson;
+				margin-bottom:3px
+			}
+		}
+		input {
+			font-family: 'Open Sans', sans-serif;
+			width: 100%;
+			border-top-style: none;
+			border-right-style: none;
+			border-bottom-style: none;
+			border-left-style: none;
+			line-height: 40px;
+			height: 40px;
+			float: left;
+			color: #666;
+			font-weight: 300;
+			padding-top: 1%;
+			padding-bottom: 1%;
+			box-shadow: 0 0 3px white inset, 0 1px 1px rgba(0, 0, 0, 0.1);
+			margin:10px 0 10px 0;
+			text-align:center;
+		}
+
+		div{
+			text-align:left;
+			div{
+				text-align:right;
+			}
+		}
+
+		.text-danger{
+			color:crimson;
+		}
+	}
+
+	@media (max-width: 767px) {
+		h1 {
+			color: white;
+			text-shadow: 0px 1px 1px rgba(27, 23, 26, 0.75);
+			vertical-align: middle;
+			position: relative;
+			margin-top: 200px;
+			font-size: 30px;
+			font-weight: 400;
+			line-height: 35px;
+			padding-bottom: 10px;
+			text-transform: uppercase;
+		
+			span {
+				color: white;
+				font-size: 22px;
+			}
+		}
+
+		p {
+			color: white;
+			font-family: 'Open Sans', sans-serif;
+			font-size: 18px;
+			font-weight: 300;
+			letter-spacing: 1px;
+			padding-bottom: 0px;
+		}
+	}
+}

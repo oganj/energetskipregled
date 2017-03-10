@@ -1,0 +1,22 @@
+﻿<div id="team">
+	<md-grid-list md-cols-gt-md="4" md-cols="1" md-cols-md="2"
+				  md-row-height-gt-md="4:1" md-row-height="6:1"
+				  md-gutter-gt-md="16px" md-gutter-md="8px" md-gutter="4px">
+		<md-grid-tile ng-repeat="player in vm.players"
+					  class="grey"
+					  md-ink-ripple
+					  flex
+					  ng-click="vm.select(player)">
+			<md-checkbox ng-disabled="false" class="md-primary"
+						 ng-model="player.selected" ng-click="vm.toggle($event, player)">
+				{{player.name}}, {{player.skill}}
+			</md-checkbox>
+		</md-grid-tile>
+	</md-grid-list>
+</div>
+<md-button class="md-primary md-fab md-fab-bottom-right" aria-label="Create" ng-click="vm.showTeams($event)">
+	<md-tooltip md-direction="left">
+		Generate teams
+	</md-tooltip>
+	<md-icon>reorder</md-icon>
+</md-button>

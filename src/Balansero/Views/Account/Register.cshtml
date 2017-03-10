@@ -1,0 +1,58 @@
+﻿@model RegisterViewModel
+
+@section Scripts {
+	@{ await Html.RenderPartialAsync("_CommonScriptsPartial"); }
+	@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+	@{ await Html.RenderPartialAsync("_RegisterScriptsPartial"); }
+}
+
+<md-content class="content full-height full-width" layout="row" layout-sm="column" layout-xs="column" layout-align="center center"
+			ng-app="login" ng-controller="registerController" ng-cloak>
+	<div flex="50" flex-sm="100" flex-xs="100" >
+		<h1>EnergetskiPregled<br> <span>BALANCE YOUR TEAMS QUICK AND EASY.</span></h1>
+		<p>
+			You want to play football with your friends? You don't know how to assign teams? Let EnergetskiPregled do the job for you... All in few clicks.
+			<br>Try it, then tell everyone how easy it is to generate teams.
+		</p>
+		@*<a class="btn btn-default scroll-to-cenovnik" href="#cenovnik">Prices</a>*@
+	</div>
+
+	<div flex="30" flex-sm="100" flex-xs="100" flex-offset-gt-sm="10" >
+		<section>
+			<form asp-controller="Account" asp-action="Register" method="post" class="register-form" role="form">
+				<h4>Sign up here.</h4>
+				<hr />
+				<div id="validation-messages" asp-validation-summary="All"></div>
+
+				<div>
+					<label asp-for="Email" ></label>
+					<div >
+						<input asp-for="Email"/>
+						@*<span asp-validation-for="Email" class="text-danger"></span>*@
+					</div>
+				</div>
+				<div class="form-group">
+					<label asp-for="Password" class="control-label"></label>
+					<div>
+						<input asp-for="Password" class="form-control" />
+						@*<span asp-validation-for="Password" class="text-danger"></span>*@
+					</div>
+				</div>
+				<div class="form-group">
+					<label asp-for="ConfirmPassword" class="control-label"></label>
+					<div>
+						<input asp-for="ConfirmPassword" class="form-control" />
+						@*<span asp-validation-for="ConfirmPassword" class="text-danger"></span>*@
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="">
+						<md-button ng-click="showLoginDialog($event)" class="md-raised md-secondary">Sign in</md-button>
+						<md-button type="submit" class="md-raised md-primary" >Register</md-button>
+					</div>
+				</div>
+			</form>
+		</section>
+	</div>
+</md-content>
+

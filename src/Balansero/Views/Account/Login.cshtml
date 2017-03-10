@@ -1,0 +1,50 @@
+﻿@using System.Collections.Generic
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Http.Authentication
+@model LoginViewModel
+@inject SignInManager<ApplicationUser> SignInManager
+
+@section Scripts {
+	@{ await Html.RenderPartialAsync("_CommonScriptsPartial"); }
+	@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+	@{ await Html.RenderPartialAsync("_RegisterScriptsPartial"); }
+}
+
+
+	<form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="full-height" id="login" ng-app="login" ng-cloak layout="column" layout-align="start center" >
+	<md-toolbar layout layout-align="center center">
+	</md-toolbar>
+		<div layout="column" layout-align="center center" flex style="padding:20px">
+
+			<div asp-validation-summary="All" class="text-danger" id="validation-messages"></div>
+			<div>
+				<label asp-for="Email"></label>
+				<div>
+					<input asp-for="Email" />
+				</div>
+			</div>
+			<div>
+				<label asp-for="Password"></label>
+				<div>
+					<input asp-for="Password" />
+				</div>
+			</div>
+
+			<div class="checkbox">
+				<label asp-for="RememberMe">
+					<input asp-for="RememberMe" id="rememberMe" />
+					@Html.DisplayNameFor(m => m.RememberMe)
+				</label>
+			</div>
+
+			<div>
+				<div>
+					<md-button type="submit" class="md-raised md-primary">Sign in</md-button>
+				</div>
+			</div>
+			<hr />
+			<a asp-action="ForgotPassword">Forgot your password?</a>
+			<hr />
+			<a asp-action="Register">New user? Register here.</a>
+		</div>
+</form>

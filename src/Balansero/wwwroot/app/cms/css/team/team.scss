@@ -1,0 +1,12 @@
+﻿#team {
+	height: 100%;
+
+	md-grid-tile figure {
+		justify-content: flex-start;
+
+		md-checkbox {
+			margin-bottom: 0px;
+			margin-left: 15px;
+		}
+	}
+}

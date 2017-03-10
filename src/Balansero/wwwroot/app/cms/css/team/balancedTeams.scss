@@ -1,0 +1,15 @@
+﻿#balancedTeams {
+	//min-width: 35%;
+
+	.team-toolbar {
+		height: 35px;
+	}
+
+	md-grid-tile figure {
+		justify-content: flex-start;
+
+		p {
+			margin-left: 15px;
+		}
+	}
+}

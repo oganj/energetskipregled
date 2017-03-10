@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="icon" href="~/favicon.png?v=1">
+	<title>EnergetskiPregled</title>
+
+	<environment names="Development">
+		<link rel="stylesheet" href="~/lib/angular-material/angular-material.min.css" />
+		<link rel="stylesheet" href="~/lib/angular-material-icons/angular-material-icons.css" />
+		<link rel="stylesheet" href="~/lib/dropify/dist/css/dropify.min.css" />
+		
+		<link rel="stylesheet" href="~/app/cms/css/main.css" asp-append-version="true"/>
+		<link href="~/app/cms/css/material-icons/material-icons.css" rel="stylesheet" asp-append-version="true">
+	</environment>
+	<environment names="Staging,Production">
+		<link rel="stylesheet" href="~/lib/angular-material/angular-material.min.css" />
+		<link rel="stylesheet" href="~/lib/angular-material-icons/angular-material-icons.css" />
+		<link rel="stylesheet" href="~/lib/dropify/dist/css/dropify.min.css" />
+
+		<link rel="stylesheet" href="~/app/cms/css/main.min.css" asp-append-version="true" />
+		<link href="~/app/cms/css/material-icons/material-icons.css" rel="stylesheet" asp-append-version="true">
+	</environment>
+</head>
+<body>
+	<div class="full-height">
+		@RenderBody()
+	</div>
+
+	@RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,48 @@
+﻿<md-dialog aria-label="{{vm.title}} Player">
+	<form ng-cloak name="form">
+		<md-toolbar>
+			<div class="md-toolbar-tools">
+				<h2>{{vm.title}} Player</h2>
+				<span flex></span>
+				<md-button class="md-icon-button" ng-click="vm.cancel()">
+					<md-icon>cancel</md-icon>
+				</md-button>
+			</div>
+		</md-toolbar>
+		<md-dialog-content >
+			<div class="md-dialog-content" layout="column">
+				<md-input-container flex>
+					<label>Name</label>
+					<input md-maxlength="100" required md-auto-focus name="name" ng-model="vm.player.name">
+					<div ng-messages="form.name.$error" ng-class="{ 'ng-messages-fix' : !form.name.$touched}">
+						<div ng-message="required">This is required.</div>
+						<div ng-message="md-maxlength">The name must be less than 100 characters long.</div>
+					</div>
+				</md-input-container>
+				<md-input-container flex>
+					<label>Skill</label>
+					<input required type="number" step="0.5" name="skill" ng-model="vm.player.skill" min="1"
+						   max="10" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" />
+					<div ng-messages="form.skill.$error" ng-class="{ 'ng-messages-fix' : !form.skill.$touched}">
+						<div ng-message="required">This is required.</div>
+						<div ng-message="min">
+							Minimum skill is 1!
+						</div>
+						<div ng-message="max">
+							Maximum skill is 10!
+						</div>
+					</div>
+				</md-input-container>
+			</div>
+		</md-dialog-content>
+		<md-dialog-actions layout="row">
+			<span flex></span>
+			<md-button ng-click="vm.cancel()" class="md-raised md-primary">
+				Cancel
+			</md-button>
+			<md-button ng-click="vm.save()" class="md-raised md-primary" ng-disabled="form.$invalid">
+				{{vm.title}}
+			</md-button>
+		</md-dialog-actions>
+	</form>
+</md-dialog>

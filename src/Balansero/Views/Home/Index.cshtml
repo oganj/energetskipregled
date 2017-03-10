@@ -1,0 +1,52 @@
+﻿@{
+	ViewData["Title"] = "Home Page";
+}
+
+@section Scripts {
+	@{await Html.RenderPartialAsync("_CommonScriptsPartial"); }
+	@{await Html.RenderPartialAsync("_ContentScriptsPartial"); }
+}
+
+<section ng-app="content" ng-controller="menuController as vm" layout="row" class="full-height" ng-cloak id="mainMenu">
+	<md-sidenav layout="column" md-is-locked-open="$mdMedia('gt-md')" md-component-id="left" ng-cloak>
+		<md-toolbar layout="row" flex="10" ng-cloak layout-align="center center">
+			<p style="font-weight:bold">Energetski pregled objekata</p>
+		</md-toolbar>
+		<div class="image-container" layout="column" layout-align="center center">
+			<div class="event-image">
+				<img src="~/img/green-logo.gif">
+			</div>
+			{{vm.username}}
+		</div>
+			<md-list layout="column" ng-cloak flex>
+				<md-divider></md-divider>
+				<md-list-item ng-href="#/players" ng-click="vm.toggleSideNav()">
+					<i class="material-icons main-menu-icon">people</i><p class="main-menu-text">Players</p>
+				</md-list-item>
+				<md-divider></md-divider>
+				<md-list-item ng-href="#/teams" ng-click="vm.toggleSideNav()">
+					<i class="material-icons main-menu-icon">settings</i><p class="main-menu-text">Teams</p>
+				</md-list-item>
+				<md-divider></md-divider>
+				<md-list-item class="log-out">
+					<form flex asp-area="" asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm">
+						<md-button md-accent type="submit" layout>
+							<i class="material-icons main-menu-icon">power_settings_new</i><p>Sign out</p>
+						</md-button>
+					</form>
+				</md-list-item>
+				<md-divider></md-divider>
+			</md-list>
+	</md-sidenav>
+	<div layout="column" flex ng-cloak>
+		<md-toolbar flex="10" layout="row" layout-align="end center">
+			<md-button hide-gt-md ng-click="vm.toggleSideNav()" flex layout>
+				<i class="material-icons">menu</i><p class="main-menu-text"></p>
+			</md-button>
+			<span flex></span>
+			<p class="toolbar-header-title">{{headerTitle}}</p>
+		</md-toolbar>
+		<md-content ng-view flex="90">
+		</md-content>
+	</div>
+</section>

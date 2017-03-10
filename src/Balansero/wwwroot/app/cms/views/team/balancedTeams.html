@@ -1,0 +1,58 @@
+﻿<md-dialog aria-label="Balanced Teams" id="balancedTeams" flex-gt-sm="35">
+	<form ng-cloak name="form">
+		<md-toolbar>
+			<div class="md-toolbar-tools">
+				<h2>Balanced Teams</h2>
+				<span flex></span>
+				<md-button class="md-icon-button" ng-click="vm.cancel()">
+					<md-icon>cancel</md-icon>
+				</md-button>
+			</div>
+		</md-toolbar>
+		<md-dialog-content >
+			<div class="md-dialog-content" layout="column">
+				<md-toolbar class="md-toolbar-tools team-toolbar" layout="row" layout-align="end center">
+					<h4>Team 1</h4>
+					<span flex></span>
+					<h4>Overall Skill: {{vm.team1OverallSkill}}</h4>
+				</md-toolbar>
+				<div layout="column">
+					<md-grid-list md-cols="1"
+								  md-row-height-gt-md="10:1" md-row-height="12:1"
+								  md-gutter-gt-md="6px" md-gutter-md="4px" md-gutter="2px">
+						<md-grid-tile ng-repeat="player in vm.team1"
+									  class="grey"
+									  flex>
+							<p>{{$index + 1}}. {{player.name}}, {{player.skill}}</p>
+						</md-grid-tile>
+					</md-grid-list>
+				</div>
+				<md-toolbar class="md-toolbar-tools team-toolbar" layout="row" layout-align="end center">
+					<h4 >Team 2</h4>
+					<span flex></span>
+					<h4 >Overall Skill: {{vm.team2OverallSkill}}</h4>
+				</md-toolbar>
+				<div layout="column">
+					<md-grid-list md-cols="1"
+								  md-row-height-gt-md="10:1" md-row-height="12:1"
+								  md-gutter-gt-md="6px" md-gutter-md="4px" md-gutter="2px">
+						<md-grid-tile ng-repeat="player in vm.team2"
+									  class="grey"
+									  flex>
+							<p>{{$index + 1}}. {{player.name}}, {{player.skill}}</p>
+						</md-grid-tile>
+					</md-grid-list>
+				</div>
+			</div>
+		</md-dialog-content>
+		<md-dialog-actions layout="row">
+			<span flex></span>
+			<md-button ng-click="vm.cancel()" class="md-raised md-primary">
+				Cancel
+			</md-button>
+			<md-button ng-click="vm.rebalanceTeams()" class="md-raised md-primary">
+				Rebalance
+			</md-button>
+		</md-dialog-actions>
+	</form>
+</md-dialog>
