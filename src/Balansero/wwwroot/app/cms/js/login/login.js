@@ -7,10 +7,13 @@
 
 	function config($locationProvider, $mdThemingProvider, $httpProvider) {
 		$mdThemingProvider.theme('default')
-			.primaryPalette('teal')
+			//.primaryPalette('teal')
+			//.accentPalette('green')
+			//.warnPalette('deep-orange')
+			//.dark();
+			.primaryPalette('light-green')
 			.accentPalette('green')
-			.warnPalette('deep-orange')
-			.dark();
+			.warnPalette('red');
 
 		// Enable browser color
 		$mdThemingProvider.enableBrowserColor({

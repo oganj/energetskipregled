@@ -3,6 +3,7 @@
 @import 'register/register.scss';
 @import 'login/login.scss';
 @import 'player/player.scss';
+@import 'construction/construction.scss';
 @import 'team/team.scss';
 @import 'team/balancedTeams.scss';
 
@@ -171,7 +172,7 @@ body{
 	}
 
 	.grey {
-		background: #808080; 
+		background: #c6f1bf; 
 	}
 
 	md-grid-tile {

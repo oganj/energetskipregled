@@ -13,6 +13,11 @@
 				controller: 'playerController as vm',
 				pageTrack: '/players'
 			})
+			.when('/konstrukcije', {
+				templateUrl: 'app/cms/views/construction/index.html',
+				controller: 'constructionController as vm',
+				pageTrack: '/konstrukcije'
+			})
 			.when('/teams', {
 				templateUrl: 'app/cms/views/team/index.html?v=3',
 				controller: 'teamController as vm',
@@ -21,11 +26,11 @@
 			.otherwise({ redirectTo: '/' });
 
 		$mdThemingProvider.theme('default')
-			.primaryPalette('teal')
+			.primaryPalette('light-green')
 			.accentPalette('green')
-			.warnPalette('deep-orange')
+			.warnPalette('red');
 			//.backgroundPalette('light-blue')
-			.dark();
+			//.dark();
 
 		// Enable browser color
 		$mdThemingProvider.enableBrowserColor({

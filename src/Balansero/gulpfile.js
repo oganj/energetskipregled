@@ -7,11 +7,13 @@ var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');
 var bump = require("gulp-bump");
 var templateCache = require('gulp-angular-templatecache');
+var sass = require("gulp-sass");
 
 var paths = {
 	webroot: "./wwwroot/"
 };
 var cmsPath = paths.webroot + "app/cms/js";
+var cssPath = paths.webroot + "app/cms/css";
 
 function getFolders(dir) {
 	return fs.readdirSync(dir)
@@ -19,6 +21,12 @@ function getFolders(dir) {
 			return fs.statSync(path.join(dir, file)).isDirectory();
 		});
 }
+
+gulp.task("sass", function () {
+	return gulp.src(cssPath + "/main.scss")
+	  .pipe(sass())
+	  .pipe(gulp.dest(cssPath));
+});
 
 gulp.task('minify', function () {
 	var cmsFolders = getFolders(cmsPath);
