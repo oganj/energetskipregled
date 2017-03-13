@@ -1,0 +1,108 @@
+﻿(function () {
+	'use strict';
+	angular
+	.module('content')
+	.controller('constructionController', constructionController);
+
+	constructionController.$inject = ['$scope', 'dataservice', '$log', '$location', '$mdDialog', '$mdSimpleToast', '$rootScope'];
+	function constructionController($scope, dataservice, $log, $location, $mdDialog, $mdSimpleToast, $rootScope) {
+		var vm = this;
+		vm.players = [];
+		$rootScope.headerTitle = '';
+
+		var init = function () {
+			dataservice.player.getList().then(function (data) {
+				vm.players = data;
+			});
+		};
+
+		init();
+
+		$scope.selected = [];
+
+		$scope.query = {
+			order: 'name',
+			limit: 5,
+			page: 1
+		};
+
+		function success(desserts) {
+			$scope.desserts = desserts;
+		}
+
+		$scope.getDesserts = function () {
+			return $scope.nutritionList;
+			//$scope.promise = $nutrition.desserts.get($scope.query, success).$promise;
+		};
+
+		
+		vm.addNewPlayer = function (ev) {
+			$mdDialog.show({
+				controller: 'editPlayerController as vm',
+				templateUrl: 'app/cms/views/player/edit.html?v=4',
+				parent: angular.element(document.body),
+				targetEvent: ev,
+				locals: {
+					playerId: null
+				},
+				clickOutsideToClose: true,
+				fullscreen: true // Only for -xs, -sm breakpoints.
+			})
+			.then(function (answer) {
+				if (answer) {
+					$mdSimpleToast.show('Player added!');
+					init();
+				} else {
+					$mdSimpleToast.show('Error occurred!');
+				}
+			}, function () {
+			});
+		};
+
+		vm.removePlayer = function (ev, playerId) {
+			ev.stopPropagation();
+			// Appending dialog to document.body to cover sidenav in docs app
+			var confirm = $mdDialog.confirm()
+					.title('Remove')
+					.textContent('Are you sure you want to remove player?')
+					.targetEvent(ev)
+					.ok('Yes')
+					.cancel('No');
+
+			$mdDialog.show(confirm).then(function () {
+				var ids = [];
+				ids.push(playerId);
+				dataservice.player.remove(ids).then(function (data) {
+					$mdSimpleToast.show('Player removed!');
+					init();
+				}, function (err) {
+					$mdSimpleToast.show('Error occurred!');
+				});
+			}, function () {
+			});
+		};
+
+		vm.editPlayer = function (ev, playerId) {
+			$mdDialog.show({
+				controller: 'editPlayerController as vm',
+				templateUrl: 'app/cms/views/player/edit.html?v=4',
+				parent: angular.element(document.body),
+				targetEvent: ev,
+				locals: {
+					playerId: playerId
+				},
+				clickOutsideToClose: true,
+				fullscreen: true // Only for -xs, -sm breakpoints.
+			})
+			.then(function (answer) {
+				if (answer) {
+					$mdSimpleToast.show('Player updated!');
+					init();
+				} else {
+					$mdSimpleToast.show('Error occurred!');
+				}
+			}, function () {
+			});
+		};
+	}
+})();

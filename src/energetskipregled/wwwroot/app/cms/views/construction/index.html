@@ -1,0 +1,107 @@
+﻿<div id="constructions">
+	<md-grid-list md-cols="1" md-cols-gt-lg="2"
+				  md-row-height-gt-md="16:9" md-row-height="16:9"
+				  md-gutter="8px" md-gutter-gt-sm="4px">
+
+		<md-grid-tile ng-repeat="player in vm.players | orderBy: 'lastModifiedAt':true"
+					  class="grey"
+					 
+					  
+					  >
+			<!--<md-grid-tile-header flex-align="center center" ng-click="vm.removePlayer($event, player.id)">
+				<h2>Remove<i class="material-icons">delete</i></h2>
+			</md-grid-tile-header>-->
+
+				<style>
+					
+					table, th, td {
+						border: 1px solid black;
+						border-collapse: collapse;
+					}
+					th, td {
+						padding: 5px;
+						text-align: left;
+						font-size: 0.7em;
+					}
+				</style>
+				
+			<table style="width:100%">
+				<tr>
+					<th>Materijal</th>
+					<th>Debljina</th>
+					<th>
+						<md-button class="md-primary">
+							Rj [m2K/W]
+							<md-tooltip md-direction="top">
+								Otpornost prolazu toplote sloja Rj [m2K/W]
+							</md-tooltip>
+						</md-button>
+					</th>
+					<th>Rm[m2K/W]</th>
+					<th>U[w/m2K]</th>
+					<th>θj[C°]</th>
+					<th>θj[C°]</th>
+					<th>p'[kPa]</th>
+					<th>p[kPa]</th>
+					<th>Sd[m]</th>
+				</tr>
+				<tr>
+					<td>UNUTRA</td>
+					<td colspan="4">Unutrašnja projektna temperatura prema nameni objekta</td>
+					<td>20.00</td>
+					<td>20.00</td>
+					<td>2.34</td>
+					<td></td>
+					<td>r [m]</td>
+
+				</tr>
+				<tr ng-click="vm.addNewPlayer($event)">
+					<td>Otpor prelazu toplote na unutrašnju površinu, Rsi</td>
+					<td>UZ ZID</td>
+					<td>0.13</td>
+					<td>0.13</td>
+					<td>7.69</td>
+					<td>18.32</td>
+					<td>17.65</td>
+					<td>2.11</td>
+					<td>1.16</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>Podužni krečni malter - 1800kg/m³</td>
+					<td>2500</td>
+					<td>0.0287</td>
+					<td>0.16</td>
+					<td>6.30</td>
+					<td>17.97</td>
+					<td>17.16</td>
+					<td>2.06</td>
+					<td>1.13</td>
+					<td>0.50</td>
+				</tr>
+				<tr>
+					
+					
+				</tr>
+			</table>
+
+
+				
+			
+			<!--ng-click="vm.commandDevice(device.serialNumber, $event)">-->
+			
+			<!--<md-grid-tile-footer>
+				<h2>{{player.name}}</h2>
+				<h3>{{player.skill}}</h3>
+			</md-grid-tile-footer>-->
+		</md-grid-tile>
+		<md-grid-tile class="grey"
+					  md-ink-ripple
+					  ng-click="vm.addNewPlayer($event)">
+			<md-icon md-svg-icon="add"></md-icon>
+			<md-grid-tile-footer>
+				<h2>Add new player</h2>
+			</md-grid-tile-footer>
+		</md-grid-tile>
+	</md-grid-list>
+</div>

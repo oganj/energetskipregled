@@ -1,0 +1,12 @@
+[
+  {
+    "outputFile": "wwwroot/app/cms/css/main.css",
+    "inputFile": "wwwroot/app/cms/css/main.scss",
+    "sourceMap": false
+  },
+  {
+    "outputFile": "wwwroot/app/cms/css/config.css",
+    "inputFile": "wwwroot/app/cms/css/config.scss",
+    "sourceMap": false
+  }
+]
