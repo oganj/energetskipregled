@@ -2,10 +2,10 @@
 	'use strict';
 	angular
 	.module('content')
-	.controller('constructionController', constructionController)
+	.controller('trnsparentConstructionController', trnsparentConstructionController)
 
-	constructionController.$inject = ['$scope', 'dataservice', '$log', '$location', '$mdDialog', '$mdSimpleToast', '$rootScope'];
-	function constructionController($scope, dataservice, $log, $location, $mdDialog, $mdSimpleToast, $rootScope) {
+	trnsparentConstructionController.$inject = ['$scope', 'dataservice', '$log', '$location', '$mdDialog', '$mdSimpleToast', '$rootScope'];
+	function trnsparentConstructionController($scope, dataservice, $log, $location, $mdDialog, $mdSimpleToast, $rootScope) {
 		var vm = this;
 		vm.players = [];
 		$rootScope.headerTitle = '';
@@ -18,24 +18,6 @@
 
 		init();
 
-		$scope.selected = [];
-
-		$scope.query = {
-			order: 'name',
-			limit: 5,
-			page: 1
-		};
-
-		function success(desserts) {
-			$scope.desserts = desserts;
-		}
-
-		$scope.getDesserts = function () {
-			return $scope.nutritionList;
-			//$scope.promise = $nutrition.desserts.get($scope.query, success).$promise;
-		};
-
-		
 		vm.addNewPlayer = function (ev) {
 			$mdDialog.show({
 				controller: 'editPlayerController as vm',

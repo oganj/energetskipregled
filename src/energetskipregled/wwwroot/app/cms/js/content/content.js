@@ -13,15 +13,25 @@
 				controller: 'playerController as vm',
 				pageTrack: '/players'
 			})
-			.when('/konstrukcije', {
-				templateUrl: 'app/cms/views/construction/index.html',
-				controller: 'constructionController as vm',
-				pageTrack: '/konstrukcije'
-			})
 			.when('/teams', {
 				templateUrl: 'app/cms/views/team/index.html?v=3',
 				controller: 'teamController as vm',
 				pageTrack: '/teams'
+			})
+			.when('/projekat', {
+				templateUrl: 'app/cms/views/project/index.html',
+				controller: 'projectController as vm',
+				pageTrack: '/projekat'
+			})
+			.when('/netransparentne-konstrukcije', {
+				templateUrl: 'app/cms/views/nontransparentConstruction/index.html',
+				controller: 'nontrnsparentConstructionController as vm',
+				pageTrack: '/netransparentne-konstrukcije'
+			})
+			.when('/transparentne-konstrukcije', {
+				templateUrl: 'app/cms/views/transparentconstruction/index.html',
+				controller: 'trnsparentConstructionController as vm',
+				pageTrack: '/transparentne-konstrukcije'
 			})
 			.otherwise({ redirectTo: '/' });
 

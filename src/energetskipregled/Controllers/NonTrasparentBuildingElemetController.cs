@@ -10,7 +10,6 @@ using EnergetskiPregled.Contracts.Data;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using System.Text.RegularExpressions;
-using Balansero.Contracts.Data;
 
 namespace EnergetskiPregled.Controllers
 {
@@ -20,11 +19,11 @@ namespace EnergetskiPregled.Controllers
 		private readonly INonTrasparentBuildingElemetService _nonTrasparentBuildingElemetService;
 		private readonly IMapperProvider _mapper;
 
-		public NonTrasparentBuildingElemetController(INonTrasparentBuildingElemetService NonTrasparentBuildingElemetService, IMapperProvider mapper, IUserService userService)
+		public NonTrasparentBuildingElemetController(INonTrasparentBuildingElemetService nonTrasparentBuildingElemetService, IMapperProvider mapper, IUserService userService)
 			: base(userService)
 		{
-			if (NonTrasparentBuildingElemetService == null) throw new ArgumentNullException("NonTrasparentBuildingElemetService");
-			_nonTrasparentBuildingElemetService = NonTrasparentBuildingElemetService;
+			if (nonTrasparentBuildingElemetService == null) throw new ArgumentNullException("nonTrasparentBuildingElemetService");
+			_nonTrasparentBuildingElemetService = nonTrasparentBuildingElemetService;
 			_mapper = mapper;
 		}
 
@@ -37,10 +36,16 @@ namespace EnergetskiPregled.Controllers
 		[HttpGet]
 		public async Task<ActionResult> ListAll([FromQuery]int projectId)
 		{
+			List<NonTrasparentBuildingElemet> result = new List<NonTrasparentBuildingElemet>();
 			ApplicationUser user = await GetUserAsync();
-			List<NonTrasparentBuildingElemet> result = _nonTrasparentBuildingElemetService.ListAll(projectId, user.Id);
-			var mapper = _mapper.GetMapper<NonTrasparentBuildingElemet, NonTrasparentBuildingElemetDto>();
+			
+			Project project = user.Projects.FirstOrDefault();//TODO take passed project id when there is support for more then one project
+			if (project != null)
+			{
+				result = _nonTrasparentBuildingElemetService.ListAll(project.Id);
+			}
 
+			var mapper = _mapper.GetMapper<NonTrasparentBuildingElemet, NonTrasparentBuildingElemetDto>();
 			return Json(result.Select(mapper.MapToDto).ToList());
 		}
 
@@ -48,7 +53,15 @@ namespace EnergetskiPregled.Controllers
 		public async Task<ActionResult> List([FromQuery]BaseQuery request, [FromQuery]int projectId)
 		{
 			ApplicationUser user = await GetUserAsync();
-			QueryResponse<NonTrasparentBuildingElemet> result = _nonTrasparentBuildingElemetService.List(request, projectId, user.Id);
+
+			QueryResponse<NonTrasparentBuildingElemet> result = new QueryResponse<NonTrasparentBuildingElemet>();
+
+			Project project = user.Projects.FirstOrDefault();//TODO take passed project id when there is support for more then one project
+			if (project != null)
+			{
+				result = _nonTrasparentBuildingElemetService.List(request, project.Id);
+			}
+			
 			var mapper = _mapper.GetMapper<NonTrasparentBuildingElemet, NonTrasparentBuildingElemetDto>();
 
 			var response = new BaseQueryResponse<NonTrasparentBuildingElemetDto>
@@ -66,7 +79,13 @@ namespace EnergetskiPregled.Controllers
 		public async Task<ActionResult> Get([FromQuery]int id, [FromQuery]int projectId)
 		{
 			ApplicationUser user = await GetUserAsync();
-			NonTrasparentBuildingElemet ev = _nonTrasparentBuildingElemetService.Get(id, projectId, user.Id);
+			Project project = user.Projects.FirstOrDefault();//TODO take passed project id when there is support for more then one project
+			if (project == null)
+			{
+				return Json(null);
+			}
+
+			NonTrasparentBuildingElemet ev = _nonTrasparentBuildingElemetService.Get(id, project.Id);
 			var mapper = _mapper.GetMapper<NonTrasparentBuildingElemet, NonTrasparentBuildingElemetDto>();
 
 			return Json(mapper.MapToDto(ev));
@@ -77,14 +96,25 @@ namespace EnergetskiPregled.Controllers
 		{
 			var mapperDto = _mapper.GetMapper<NonTrasparentBuildingElemet, NonTrasparentBuildingElemetDto>();
 			NonTrasparentBuildingElemet entity = mapperDto.MapToEntity(dto, new NonTrasparentBuildingElemet());
-			entity = await _nonTrasparentBuildingElemetService.CreateAndAssignToUser(entity, (await GetUserAsync()).Id);
+
+			Project project = (await GetUserAsync()).Projects.FirstOrDefault();//TODO take passed project id when there is support for more then one project
+			if (project != null)
+			{
+				entity.ProjectId = project.Id;
+				entity = await _nonTrasparentBuildingElemetService.CreateAndAssignToUser(entity);
+			}
+				
 			return Json((mapperDto.MapToDto(entity)));
 		}
 
 		[HttpDelete]
 		public async Task<JsonResult> Delete(int[] ids)
 		{
-			await _nonTrasparentBuildingElemetService.Archive(ids, (await GetUserAsync()).Id);
+			Project project = (await GetUserAsync()).Projects.FirstOrDefault();//TODO take passed project id when there is support for more then one project
+			if (project != null)
+			{
+				await _nonTrasparentBuildingElemetService.Archive(ids, project.Id);
+			}
 			return Json(new object());
 		}
 

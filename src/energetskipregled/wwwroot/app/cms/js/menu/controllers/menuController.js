@@ -34,7 +34,7 @@
 
 		vm.toggleSideNav = function () {
 			$mdSidenav('left').toggle();
-		}
+		};
 
 		vm.query = {
 			pageSize: 10,

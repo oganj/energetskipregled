@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Balansero.Contracts.Data
+namespace EnergetskiPregled.Contracts.Data
 {
     public class NonTrasparentBuildingElemetDto
     {

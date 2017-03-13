@@ -91,6 +91,11 @@ namespace EnergetskiPregled
 
 
 			// Adding custom services.
+			services.AddTransient<IProjectService, ProjectService>();
+			services.AddTransient<IMaterialCategoryService, MaterialCategoryService>();
+			services.AddTransient<IMaterialService, MaterialService>();
+			services.AddTransient<INonTrasparentBuildingElemetService, NonTrasparentBuildingElemetService>();
+			//services.AddTransient<IPlayerService, PlayerService>();
 			services.AddTransient<IPlayerService, PlayerService>();
 			services.AddTransient<IUserService, UserService>();
 			services.AddSingleton<IMapperProvider, MapperProvider>();

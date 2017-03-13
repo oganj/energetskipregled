@@ -12,7 +12,12 @@ namespace EnergetskiPregled.Data
 	public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 	{
 		public DbSet<Player> Players { get; set; }
-
+		public DbSet<Project> Projects { get; set; }
+		public DbSet<MaterialCategory> MaterialCategorys { get; set; }
+		public DbSet<Material> Materials { get; set; }
+		public DbSet<MaterialThickness> MaterialThicknesses { get; set; }
+		public DbSet<NonTrasparentBuildingElemet> NonTrasparentBuildingElemets { get; set; }
+		
 		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
 			: base(options)
 		{
