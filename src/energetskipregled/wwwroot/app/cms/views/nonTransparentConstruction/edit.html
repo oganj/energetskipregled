@@ -1,0 +1,53 @@
+﻿<md-dialog aria-label="{{vm.title}} materiajal">
+	<form ng-cloak name="form">
+		<md-toolbar>
+			<div class="md-toolbar-tools">
+				<h2>{{vm.title}} građevinsku konstrukciju</h2>
+				<span flex></span>
+				<md-button class="md-icon-button" ng-click="vm.cancel()">
+					<md-icon>cancel</md-icon>
+				</md-button>
+			</div>
+		</md-toolbar>
+		<md-dialog-content >
+			<div class="md-dialog-content" layout="column">
+				<md-input-container flex>
+					<label>Kategorija materijala</label>
+					<md-select name="category" ng-model="vm.materialThickness.material.categoryId" required  md-auto-focus>
+						<md-option ng-repeat="category in vm.categories" value="{{category.id}}">{{category.name}}</md-option>
+					</md-select>
+					<div ng-messages="form.category.$error" ng-class="{ 'ng-messages-fix' : !form.category.$touched}">
+						<div ng-message="required">Ovo polje je neophodno.</div>
+					</div>
+				</md-input-container>
+				<md-input-container flex>
+					<label>Materijala</label>
+					<md-select name="material" ng-model="vm.materialThickness.materialId" required>
+						<md-option ng-repeat="material in vm.materials" value="{{material.id}}">{{material.name}} - {{material.density}}kg/m3</md-option>
+					</md-select>
+					<div ng-messages="form.material.$error" ng-class="{ 'ng-messages-fix' : !form.material.$touched}">
+						<div ng-message="required">Ovo polje je neophodno.</div>
+					</div>
+				</md-input-container>
+				<md-input-container flex>
+					<label>Debljina [cm]</label>
+					<input name="thickness" ng-model="vm.materialThickness.thickness" required type="number" step="0.1" min="0.1"
+						   ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" />
+					<div ng-messages="form.thickness.$error" ng-class="{ 'ng-messages-fix' : !form.thickness.$touched}">
+						<div ng-message="required">Ovo polje je neophodno.</div>
+						<div ng-message="min">Minimum je 0.1cm.</div>
+					</div>
+				</md-input-container>
+			</div>
+		</md-dialog-content>
+		<md-dialog-actions layout="row">
+			<span flex></span>
+			<md-button ng-click="vm.cancel()" class="md-raised md-primary">
+				Odustani
+			</md-button>
+			<md-button ng-click="vm.save()" class="md-raised md-primary" ng-disabled="form.$invalid">
+				{{vm.title}}
+			</md-button>
+		</md-dialog-actions>
+	</form>
+</md-dialog>

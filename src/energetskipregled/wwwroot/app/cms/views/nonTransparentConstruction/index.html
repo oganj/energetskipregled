@@ -1,107 +1,158 @@
 ﻿<div id="nontransparent-constructions">
-	<md-grid-list md-cols="1" md-cols-gt-lg="2"
-				  md-row-height-gt-md="16:9" md-row-height="16:9"
-				  md-gutter="8px" md-gutter-gt-sm="4px">
+	<div>
+		<div flex>
+			<md-button class="md-raised md-primary"
+					   ng-click="vm.addNewConstruction($event)">
+				Dodaj novu konstrukciju
+			</md-button>
+		</div>
 
-		<md-grid-tile ng-repeat="player in vm.players | orderBy: 'lastModifiedAt':true"
-					  class="grey"
-					 
-					  
-					  >
-			<!--<md-grid-tile-header flex-align="center center" ng-click="vm.removePlayer($event, player.id)">
-				<h2>Remove<i class="material-icons">delete</i></h2>
-			</md-grid-tile-header>-->
+		<md-grid-list md-cols="1"
+					  md-row-height="32:9"
+					  md-gutter="8px" md-gutter-gt-sm="4px"
+					  style="background-color:lightgray">
+
+			<md-grid-tile ng-repeat="construction in vm.constructions | orderBy: 'lastModifiedAt':true">
+				<md-grid-tile-header flex-align="center center">
+					<md-toolbar class="md-hue-2">
+						<div class="md-toolbar-tools">
+							<md-button class="md-raised md-primary"
+									   ng-click="vm.saveConstruction($event, construction)">
+								Snimi konstrukciju
+							</md-button>
+							<md-button class="md-raised md-primary"
+									   ng-click="vm.removeConsruction($event,construction)">
+								Obriši konstrukciju
+							</md-button>
+						</div>
+					</md-toolbar>
+				</md-grid-tile-header>
 
 				<style>
-					
 					table, th, td {
 						border: 1px solid black;
 						border-collapse: collapse;
 					}
+
 					th, td {
 						padding: 5px;
 						text-align: left;
 						font-size: 0.7em;
 					}
+
+						th:hover {
+							background-color: aquamarine;
+						}
 				</style>
-				
-			<table style="width:100%">
-				<tr>
-					<th>Materijal</th>
-					<th>Debljina</th>
-					<th>
-						<md-button class="md-primary">
-							Rj [m2K/W]
-							<md-tooltip md-direction="top">
-								Otpornost prolazu toplote sloja Rj [m2K/W]
-							</md-tooltip>
-						</md-button>
-					</th>
-					<th>Rm[m2K/W]</th>
-					<th>U[w/m2K]</th>
-					<th>θj[C°]</th>
-					<th>θj[C°]</th>
-					<th>p'[kPa]</th>
-					<th>p[kPa]</th>
-					<th>Sd[m]</th>
-				</tr>
-				<tr>
-					<td>UNUTRA</td>
-					<td colspan="4">Unutrašnja projektna temperatura prema nameni objekta</td>
-					<td>20.00</td>
-					<td>20.00</td>
-					<td>2.34</td>
-					<td></td>
-					<td>r [m]</td>
-
-				</tr>
-				<tr ng-click="vm.addNewPlayer($event)">
-					<td>Otpor prelazu toplote na unutrašnju površinu, Rsi</td>
-					<td>UZ ZID</td>
-					<td>0.13</td>
-					<td>0.13</td>
-					<td>7.69</td>
-					<td>18.32</td>
-					<td>17.65</td>
-					<td>2.11</td>
-					<td>1.16</td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>Podužni krečni malter - 1800kg/m³</td>
-					<td>2500</td>
-					<td>0.0287</td>
-					<td>0.16</td>
-					<td>6.30</td>
-					<td>17.97</td>
-					<td>17.16</td>
-					<td>2.06</td>
-					<td>1.13</td>
-					<td>0.50</td>
-				</tr>
-				<tr>
-					
-					
-				</tr>
-			</table>
-
 
 				
-			
-			<!--ng-click="vm.commandDevice(device.serialNumber, $event)">-->
-			
-			<!--<md-grid-tile-footer>
-				<h2>{{player.name}}</h2>
-				<h3>{{player.skill}}</h3>
-			</md-grid-tile-footer>-->
-		</md-grid-tile>
-		<md-grid-tile class="grey"
-					  md-ink-ripple
-					  ng-click="vm.addNewPlayer($event)">
-			<md-icon md-svg-icon="add"></md-icon>
-			<md-grid-tile-footer>
-				<h2>Add new player</h2>
-			</md-grid-tile-footer>
-		</md-grid-tile>
-	</md-grid-list>
+				
+					<table style="width:100%">
+						<tr>
+							<th>Materijal</th>
+							<th>Debljina</th>
+							<th>Rj [m2K/W]<md-tooltip md-direction="top">Otpornost prolazu toplote sloja Rj [m2K/W]</md-tooltip></th>
+							<th>
+								Rm[m2K/W]
+								<md-tooltip md-direction="top">onOtpornost prolazu toplote sloja Rj [m2K/W]</md-tooltip>
+							</th>
+							<th>U[w/m2K]</th>
+							<th>θj[C°]</th>
+							<th>θj[C°]</th>
+							<th>p'[kPa]</th>
+							<th>p[kPa]</th>
+							<th>Sd[m]</th>
+						</tr>
+						<tr>
+							<td>UNUTRA</td>
+							<td colspan="4">Unutrašnja projektna temperatura prema nameni objekta</td>
+							<td>{{construction.tetaj1[0] | number:2}}</td>
+							<td>{{construction.tetaj2[0] | number:2}}</td>
+							<td>{{construction.p1[0] | number:2}}</td>
+							<td></td>
+							<td>r [m]</td>
+
+						</tr>
+
+
+						<tr>
+							<td>Otpor prelazu toplote na unutrašnju površinu, Rsi</td>
+							<td>UZ ZID</td>
+							<td>{{construction.rj[1] | number:4}}</td>
+							<td>{{construction.rm[1] | number:2}}</td>
+							<td>{{construction.u[1] | number:2}}</td>
+							<td>{{construction.tetaj1[1] | number:2}}</td>
+							<td>{{construction.tetaj2[1] | number:2}}</td>
+							<td>{{construction.p1[1] | number:2}}</td>
+							<td>{{construction.p2[1] | number:2}}</td>
+							<td></td>
+						</tr>
+
+						<tr ng-repeat="material in construction.materialsUsed">
+							<td>{{material.material.name}} - {{material.material.density}}kg/m³</td>
+							<td>{{material.thickness}}</td>
+							<td>{{construction.rj[2 + construction.materialsUsed.indexOf(material)] | number:4}}</td>
+							<td>{{construction.rm[2 + construction.materialsUsed.indexOf(material)] | number:2}}</td>
+							<td>{{construction.u[2 + construction.materialsUsed.indexOf(material)] | number:2}}</td>
+							<td>{{construction.tetaj1[2 + construction.materialsUsed.indexOf(material)] | number:2}}</td>
+							<td>{{construction.tetaj2[2 + construction.materialsUsed.indexOf(material)] | number:2}}</td>
+							<td>{{construction.p1[2 + construction.materialsUsed.indexOf(material)] | number:2}}</td>
+							<td>{{construction.p2[2 + construction.materialsUsed.indexOf(material)] | number:2}}</td>
+							<td>{{construction.sd[2 + construction.materialsUsed.indexOf(material)] | number:2}}</td>
+						</tr>
+						<tr>
+							<td colspan="10" ng-click="vm.addNewMaterial($event,construction)">
+								Dodaj novu sloj materijala
+							</td>
+						</tr>
+
+						<tr>
+							<td>Otpor prelazu toplote sa spoljne površine, Rse</td>
+							<td>UZ ZID</td>
+							<td>{{construction.rj[2 + construction.materialsUsed.length]}}</td>
+							<td>{{construction.rm[2 + construction.materialsUsed.indexOf(material)] | number:2}}</td>
+							<td>{{construction.u[2 + construction.materialsUsed.length] | number:2}}</td>
+							<td>{{construction.tetaj1[2 + construction.materialsUsed.length] | number:2}}</td>
+							<td>{{construction.tetaj2[2 + construction.materialsUsed.length] | number:2}}</td>
+							<td>{{construction.p1[2 + construction.materialsUsed.length] | number:2}}</td>
+							<td>{{construction.p2[2 + construction.materialsUsed.length] | number:2}}</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>SPOLJNA TEMEPERATURA</td>
+							<td>Ukupan Rm<md-tooltip md-direction="top">Ukupni koeficijent toplotne otpornosti,  Rm   [m2K/W]</md-tooltip></td>
+							<td>{{construction.rj[3 + construction.materialsUsed.length]}}</td>
+							<td></td>
+							<td></td>
+							<td>{{construction.tetaj1[3 + construction.materialsUsed.length] | number:2}}</td>
+							<td>{{construction.tetaj2[3 + construction.materialsUsed.length] | number:2}}</td>
+							<td>{{construction.p1[3 + construction.materialsUsed.length] | number:2}}</td>
+							<td></td>
+							<td>{{construction.sd[3 + construction.materialsUsed.indexOf(material)] | number:2}}</td>
+						</tr>
+						<tr></tr>
+					</table>
+				
+
+
+
+				<!--ng-click="vm.commandDevice(device.serialNumber, $event)">-->
+				<!--<md-grid-tile-footer>
+					<h2>{{player.name}}</h2>
+					<h3>{{player.skill}}</h3>
+				</md-grid-tile-footer>-->
+			</md-grid-tile>
+
+			<!--<md-grid-tile class="grey"
+						  md-ink-ripple
+						  ng-click="vm.addNewPlayer($event)">
+				<md-icon md-svg-icon="add"></md-icon>
+				<md-grid-tile-footer>
+					<h2>Add new player</h2>
+				</md-grid-tile-footer>
+			</md-grid-tile>-->
+		</md-grid-list>
+	</div>
+
+
 </div>

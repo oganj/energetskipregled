@@ -34,17 +34,20 @@ namespace EnergetskiPregled.Controllers
 		}
 
 		[HttpGet]
-		public async Task<ActionResult> ListAll([FromQuery]int projectId)
+		public async Task<ActionResult> ListAll()
 		{
 			List<NonTrasparentBuildingElemet> result = new List<NonTrasparentBuildingElemet>();
 			ApplicationUser user = await GetUserAsync();
-			
+
 			Project project = user.Projects.FirstOrDefault();//TODO take passed project id when there is support for more then one project
 			if (project != null)
 			{
 				result = _nonTrasparentBuildingElemetService.ListAll(project.Id);
 			}
-
+			if (result == null || result.Count == 0 )
+			{
+				return Json(null);
+			}
 			var mapper = _mapper.GetMapper<NonTrasparentBuildingElemet, NonTrasparentBuildingElemetDto>();
 			return Json(result.Select(mapper.MapToDto).ToList());
 		}

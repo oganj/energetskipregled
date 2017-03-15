@@ -7,7 +7,7 @@
 
 	function config($routeProvider, $locationProvider, $mdThemingProvider, $mdIconProvider, $httpProvider) {
 		$routeProvider
-			.when('/', { redirectTo: '/players' })
+			.when('/', { redirectTo: '/projekat' })
 			.when('/players', {
 				templateUrl: 'app/cms/views/player/index.html',
 				controller: 'playerController as vm',
@@ -22,6 +22,11 @@
 				templateUrl: 'app/cms/views/project/index.html',
 				controller: 'projectController as vm',
 				pageTrack: '/projekat'
+			})
+			.when('/konstrukcije', {
+				templateUrl: 'app/cms/views/Construction/index.html',
+				controller: 'constructionController as vm',
+				pageTrack: '/konstrukcije'
 			})
 			.when('/netransparentne-konstrukcije', {
 				templateUrl: 'app/cms/views/nontransparentConstruction/index.html',

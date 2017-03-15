@@ -11,10 +11,12 @@
 		'dataservice.project',
 		'dataservice.transparentConstruction',
 		'dataservice.nontransparentConstruction',
+		'dataservice.materialCategory',
+		'dataservice.material',
 		dataservice
 	]);
 
-	function dataservice(player, user, construction, project, transparentConstruction, nontransparentConstruction) {
+	function dataservice(player, user, construction, project, transparentConstruction, nontransparentConstruction, materialCategory, material) {
 		// Define the functions and properties to reveal.
 		var service = {
 			player: player,
@@ -22,7 +24,9 @@
 			construction: construction,
 			project: project,
 			transparentConstruction: transparentConstruction,
-			nontransparentConstruction: nontransparentConstruction
+			nontransparentConstruction: nontransparentConstruction,
+			materialCategory: materialCategory,
+			material: material
 		};
 
 		return service;

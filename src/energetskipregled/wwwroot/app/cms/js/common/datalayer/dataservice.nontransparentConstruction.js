@@ -22,8 +22,8 @@
 
 		return service;
 
-		function getListFunc(projectId) {
-			return get.get({ projectId: projectId }).$promise;
+		function getListFunc() {
+			return getList.query().$promise;
 		}
 
 		function getFunc(id, projectId) {

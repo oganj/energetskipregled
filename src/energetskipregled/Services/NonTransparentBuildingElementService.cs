@@ -33,7 +33,7 @@ namespace EnergetskiPregled.Services
 		{
 			NonTrasparentBuildingElemet NonTrasparentBuildingElemet = Get(id);
 
-			if (NonTrasparentBuildingElemet.Project.Id == projectId)
+			if (NonTrasparentBuildingElemet != null && NonTrasparentBuildingElemet.Project.Id == projectId)
 				return NonTrasparentBuildingElemet;
 			else
 				return null;

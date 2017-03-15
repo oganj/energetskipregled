@@ -21,17 +21,75 @@
 			<md-list layout="column" ng-cloak flex>
 				<md-divider></md-divider>
 				<md-list-item ng-href="#/projekat" ng-click="vm.toggleSideNav()">
-					<i class="material-icons main-menu-icon">people</i><p class="main-menu-text">Projekat</p>
-				</md-list-item>
-				<md-divider></md-divider>
-				<md-list-item ng-href="#/netransparentne-konstrukcije" ng-click="vm.toggleSideNav()">
-					<i class="material-icons main-menu-icon">people</i><p class="main-menu-text">Netransparentne konstrukcije</p>
-				</md-list-item>
-				<md-divider></md-divider>
-				<md-list-item ng-href="#/transparentne-konstrukcije" ng-click="vm.toggleSideNav()">
-					<i class="material-icons main-menu-icon">people</i><p class="main-menu-text">Transparentne konstrukcije</p>
+					<i class="material-icons main-menu-icon">receipt</i><p class="main-menu-text">Podaci o projektu</p>
 				</md-list-item>
 				<md-list-item ng-href="#/konstrukcije" ng-click="vm.toggleSideNav()">
+					<i class="material-icons main-menu-icon">build</i><p class="main-menu-text">Upitnik o pregledu</p>
+				</md-list-item>
+				<md-list-item ng-href="#/konstrukcije" ng-click="vm.toggleSideNav()">
+					<i class="material-icons main-menu-icon">build</i><p class="main-menu-text">Klimatski podaci</p>
+				</md-list-item>
+				<md-list-item ng-href="#/netransparentne-konstrukcije" ng-click="vm.toggleSideNav()">
+					<i class="material-icons main-menu-icon">storage</i><p class="main-menu-text">Analiza sklopova konstrukcije</p>
+				</md-list-item>
+				<md-divider/>
+				@*<md-list-item ng-href="#/transparentne-konstrukcije" ng-click="vm.toggleSideNav()">
+					<i class="material-icons main-menu-icon">storage</i><p class="main-menu-text">Transparentne konstrukcije</p>
+				</md-list-item>*@
+
+				<md-list-item ng-href="#/konstrukcije" ng-click="vm.toggleSideNav()">
+					<i class="material-icons main-menu-icon">build</i><p class="main-menu-text">Analiza termičkog omtača</p>
+				</md-list-item>
+				<md-list-item ng-href="#/konstrukcije" ng-click="vm.toggleSideNav()">
+					<i class="material-icons main-menu-icon">build</i><p class="main-menu-text">Potrebna energije za grejanje</p>
+				</md-list-item>
+				<md-list-item ng-href="#/konstrukcije" ng-click="vm.toggleSideNav()">
+					<i class="material-icons main-menu-icon">build</i><p class="main-menu-text">Potrebna energije za hlađenje</p>
+				</md-list-item>
+				<md-list-item ng-href="#/konstrukcije" ng-click="vm.toggleSideNav()">
+					<i class="material-icons main-menu-icon">build</i><p class="main-menu-text">Potrebna energija za grejanje STV</p>
+				</md-list-item>
+				<md-list-item ng-href="#/konstrukcije" ng-click="vm.toggleSideNav()">
+					<i class="material-icons main-menu-icon">build</i><p class="main-menu-text">Potrebna energija za rasvetu</p>
+				</md-list-item>
+				<md-list-item ng-href="#/konstrukcije" ng-click="vm.toggleSideNav()">
+					<i class="material-icons main-menu-icon">build</i><p class="main-menu-text">Potrebna energija za rad uređaja</p>
+				</md-list-item>
+				<md-list-item ng-href="#/konstrukcije" ng-click="vm.toggleSideNav()">
+					<i class="material-icons main-menu-icon">build</i><p class="main-menu-text">Predložene mere unapređenja EE</p>
+				</md-list-item>
+				<md-list-item ng-href="#/konstrukcije" ng-click="vm.toggleSideNav()">
+					<i class="material-icons main-menu-icon">build</i><p class="main-menu-text">Analiza utroška energije</p>
+				</md-list-item>
+				<md-list-item ng-href="#/konstrukcije" ng-click="vm.toggleSideNav()">
+					<i class="material-icons main-menu-icon">build</i><p class="main-menu-text">Analiza troškva za energente</p>
+				</md-list-item>
+				<md-list-item ng-href="#/konstrukcije" ng-click="vm.toggleSideNav()">
+					<i class="material-icons main-menu-icon">build</i><p class="main-menu-text">Uporedna analiza energije</p>
+				</md-list-item>
+				<md-list-item ng-href="#/konstrukcije" ng-click="vm.toggleSideNav()">
+					<i class="material-icons main-menu-icon">build</i><p class="main-menu-text">Dinamički indikatori ulaganja</p>
+				</md-list-item>
+
+				@*Podaci o projektu
+				Upitnik o pregledu
+				Klimatski podaci
+				Analiza sklopova konstrukcije
+
+				Analiza termičkog omtača
+				Potrebna energije za grejanje
+				Potrebna energije za hlađenje
+				Potrebna energija za grejanje STV
+				Potrebna energija za rasvetu
+				Potrebna energija za rad uređaja
+				Predložene mere unapređenja EE
+				Analiza utroška energije
+				Analiza troškva za energente
+				Uporedna analiza energije
+				Dinamički indikatori ulaganja*@
+
+
+				@*<md-list-item ng-href="#/konstrukcije" ng-click="vm.toggleSideNav()">
 					<i class="material-icons main-menu-icon">people</i><p class="main-menu-text">Građevinske konstrukcije</p>
 				</md-list-item>
 				<md-divider></md-divider>
@@ -41,7 +99,7 @@
 				<md-divider></md-divider>
 				<md-list-item ng-href="#/teams" ng-click="vm.toggleSideNav()">
 					<i class="material-icons main-menu-icon">settings</i><p class="main-menu-text">Teams</p>
-				</md-list-item>
+				</md-list-item>*@
 				<md-divider></md-divider>
 				<md-list-item class="log-out">
 					<form flex asp-area="" asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm">

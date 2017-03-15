@@ -26,6 +26,7 @@ namespace EnergetskiPregled.Services
 		public MaterialCategory Get(int id)
 		{
 			return _dbContext.MaterialCategorys
+				
 				.SingleOrDefault(x => x.Id == id);
 		}
 

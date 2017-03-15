@@ -22,17 +22,17 @@ namespace EnergetskiPregled.Services
 
 		public async Task<ApplicationUser> GetByIdAsync(string id)
 		{
-			return await _dbContext.Users.Include(x => x.Players).SingleOrDefaultAsync(x => x.Id.Equals(id));
+			return await _dbContext.Users.Include(x => x.Players).Include(x => x.Projects).SingleOrDefaultAsync(x => x.Id.Equals(id));
 		}
 
 		public ApplicationUser GetByUsername(string username)
 		{
-			return _dbContext.Users.Include(x => x.Players).SingleOrDefault(x => x.UserName.Equals(username));
+			return _dbContext.Users.Include(x => x.Players).Include(x=>x.Projects).SingleOrDefault(x => x.UserName.Equals(username));
 		}
 
 		public async Task<ApplicationUser> GetByUsernameAsync(string username)
 		{
-			return await _dbContext.Users.Include(x => x.Players).SingleOrDefaultAsync(x => x.UserName.Equals(username));
+			return await _dbContext.Users.Include(x => x.Players).Include(x => x.Projects).SingleOrDefaultAsync(x => x.UserName.Equals(username));
 		}
 	}
 }
