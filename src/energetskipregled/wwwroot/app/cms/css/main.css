@@ -16,7 +16,7 @@
       font-size: 16px; }
 
 .content {
-  background: url("../../../img/bcg1.jpg") center center no-repeat;
+  background: url("../../../img/bcg5.jpg") center center no-repeat;
   background-size: cover;
   z-index: 1;
   position: absolute;
@@ -24,10 +24,12 @@
   .content md-content {
     background-color: transparent; }
   .content h1 {
-    color: #00ff0a;
+    color: #0f5412;
     text-shadow: 0px 1px 1px rgba(27, 23, 26, 0.75);
     vertical-align: middle;
-    position: relative;
+    position: absolute;
+    top: 50px;
+    left: 50px;
     font-size: 44px;
     font-weight: 700;
     line-height: 65px;

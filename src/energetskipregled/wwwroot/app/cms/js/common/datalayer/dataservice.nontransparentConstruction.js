@@ -30,12 +30,26 @@
 			return get.get({ id: id, projectId: projectId }).$promise;
 		}
 
-		function createFunc(Construction) {
-			return create.save(Construction).$promise;
+		function createFunc(cons) {
+			return create.save({
+				id: cons.id,
+				name: cons.name,
+				code: cons.code,
+				MaterialsUsed: cons.materialsUsed,
+				createdAt: cons.createdAt,
+				lastModifiedAt: cons.lastModifiedAt
+			}).$promise;
 		}
 
-		function updateFunc(Construction) {
-			return update.save(Construction).$promise;
+		function updateFunc(cons) {
+			return update.save({
+				id: cons.id,
+				name: cons.name,
+				code: cons.code,
+				MaterialsUsed: cons.materialsUsed,
+				createdAt: cons.createdAt,
+				lastModifiedAt: cons.lastModifiedAt
+			}).$promise;
 		}
 
 		function removeFunc(ids) {

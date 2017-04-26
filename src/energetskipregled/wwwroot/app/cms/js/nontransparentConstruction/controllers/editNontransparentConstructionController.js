@@ -3,8 +3,8 @@
 
 	angular
 		.module('content')
-		.controller('editNontransparentConstructionController', editNontransparentConstructionController);
-
+		.controller('editNontransparentConstructionController', editNontransparentConstructionController)
+		.filter('filterByMaterialCategory', filterByCategoryId);
 	editNontransparentConstructionController.$inject = ['$location', '$mdDialog', 'dataservice', 'materialsUsed', 'materialThicknessId', 'categories', 'materials'];
 
 	function editNontransparentConstructionController($location, $mdDialog, dataservice, materialsUsed, materialThicknessId, categories, materials) {
@@ -15,6 +15,7 @@
 		vm.materialThickness = materialThicknessId ?
 			_.find(materialsUsed, function (mu) { return mu.id == materialThicknessId }) :
 			{
+				id: 0,
 				material: {
 					categoryId: '',
 				},
@@ -62,3 +63,18 @@
 		};
 	}
 })();
+
+	function filterByCategoryId() {
+		return function (input, materialCategoryId) {
+			input = input || [];
+
+			var out = '';
+
+			out = _.filter(input,
+				function (m) { return m.categoryId == materialCategoryId }
+			);
+
+
+			return out;
+		};
+	};

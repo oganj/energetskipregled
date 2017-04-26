@@ -11,7 +11,7 @@ namespace EnergetskiPregled.Contracts.Service
 	{
 		NonTrasparentBuildingElemet Get(int id);
 		NonTrasparentBuildingElemet Get(int id, int projectId);
-		QueryResponse<NonTrasparentBuildingElemet> List(BaseQuery query, int projectId);
+		//QueryResponse<NonTrasparentBuildingElemet> List(BaseQuery query, int projectId);
 		List<NonTrasparentBuildingElemet> ListAll(int projectId);
 		Task<NonTrasparentBuildingElemet> Create(NonTrasparentBuildingElemet pl);
 		Task<NonTrasparentBuildingElemet> CreateAndAssignToUser(NonTrasparentBuildingElemet pl);

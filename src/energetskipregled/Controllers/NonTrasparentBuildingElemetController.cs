@@ -49,34 +49,54 @@ namespace EnergetskiPregled.Controllers
 				return Json(null);
 			}
 			var mapper = _mapper.GetMapper<NonTrasparentBuildingElemet, NonTrasparentBuildingElemetDto>();
-			return Json(result.Select(mapper.MapToDto).ToList());
-		}
+			var mapperDtoNonTransparentBulidingElement = _mapper.GetMapper<NonTrasparentBuildingElemet, NonTrasparentBuildingElemetDto>();
+			var mapperDtoMaterialThickness = _mapper.GetMapper<MaterialThickness, MaterialThicknessDto>();
+			var mapperDtoMaterial = _mapper.GetMapper<Material, MaterialDto>();
 
-		[HttpGet]
-		public async Task<ActionResult> List([FromQuery]BaseQuery request, [FromQuery]int projectId)
-		{
-			ApplicationUser user = await GetUserAsync();
-
-			QueryResponse<NonTrasparentBuildingElemet> result = new QueryResponse<NonTrasparentBuildingElemet>();
-
-			Project project = user.Projects.FirstOrDefault();//TODO take passed project id when there is support for more then one project
-			if (project != null)
+			List<NonTrasparentBuildingElemetDto> responce = result.Select(mapperDtoNonTransparentBulidingElement.MapToDto).ToList();
+			for (int i = 0; i < responce.Count; i++)
 			{
-				result = _nonTrasparentBuildingElemetService.List(request, project.Id);
+				if (result[i].MaterialsUsed != null && result[i].MaterialsUsed.Count > 0)
+				{
+					responce[i].MaterialsUsed = new List<MaterialThicknessDto>();
+
+					foreach (var item in result[i].MaterialsUsed)
+					{
+						MaterialThicknessDto tmp = mapperDtoMaterialThickness.MapToDto(item);
+						tmp.Material = mapperDtoMaterial.MapToDto(item.Material);
+						responce[i].MaterialsUsed.Add(tmp);
+					}
+				}
 			}
-			
-			var mapper = _mapper.GetMapper<NonTrasparentBuildingElemet, NonTrasparentBuildingElemetDto>();
 
-			var response = new BaseQueryResponse<NonTrasparentBuildingElemetDto>
-			{
-				Total = result.Total,
-				PageSize = result.PageSize,
-				PageIndex = result.PageIndex,
-				List = result.List.Select(mapper.MapToDto).ToList()
-			};
-
-			return Json(response);
+			return Json(responce);
 		}
+
+		//[HttpGet]
+		//public async Task<ActionResult> List([FromQuery]BaseQuery request, [FromQuery]int projectId)
+		//{
+		//	ApplicationUser user = await GetUserAsync();
+
+		//	QueryResponse<NonTrasparentBuildingElemet> result = new QueryResponse<NonTrasparentBuildingElemet>();
+
+		//	Project project = user.Projects.FirstOrDefault();//TODO take passed project id when there is support for more then one project
+		//	if (project != null)
+		//	{
+		//		result = _nonTrasparentBuildingElemetService.List(request, project.Id);
+		//	}
+			
+		//	var mapper = _mapper.GetMapper<NonTrasparentBuildingElemet, NonTrasparentBuildingElemetDto>();
+
+		//	var response = new BaseQueryResponse<NonTrasparentBuildingElemetDto>
+		//	{
+		//		Total = result.Total,
+		//		PageSize = result.PageSize,
+		//		PageIndex = result.PageIndex,
+		//		List = result.List.Select(mapper.MapToDto).ToList()
+		//	};
+
+		//	return Json(response);
+		//}
 
 		[HttpGet]
 		public async Task<ActionResult> Get([FromQuery]int id, [FromQuery]int projectId)
@@ -97,17 +117,33 @@ namespace EnergetskiPregled.Controllers
 		[HttpPost]
 		public async Task<JsonResult> Create([FromBody]NonTrasparentBuildingElemetDto dto)
 		{
-			var mapperDto = _mapper.GetMapper<NonTrasparentBuildingElemet, NonTrasparentBuildingElemetDto>();
-			NonTrasparentBuildingElemet entity = mapperDto.MapToEntity(dto, new NonTrasparentBuildingElemet());
+			var mapperDtoNonTransparentBulidingElement = _mapper.GetMapper<NonTrasparentBuildingElemet, NonTrasparentBuildingElemetDto>();
+			var mapperDtoMaterialThickness = _mapper.GetMapper<MaterialThickness, MaterialThicknessDto>();
+
+			NonTrasparentBuildingElemet entity = mapperDtoNonTransparentBulidingElement.MapToEntity(dto, new NonTrasparentBuildingElemet());
+			entity.MaterialsUsed = entity.MaterialsUsed ?? new List<MaterialThickness>();
+			foreach (var item in dto.MaterialsUsed)
+			{
+				entity.MaterialsUsed.Add(mapperDtoMaterialThickness.MapToEntity(item, new MaterialThickness()));
+			}
+			//entity.MaterialsUsed = dto.MaterialsUsed.Select(mapperDtoMaterialThickness.MapToEntity).ToList();// (go,new MaterialThickness()));
 
 			Project project = (await GetUserAsync()).Projects.FirstOrDefault();//TODO take passed project id when there is support for more then one project
 			if (project != null)
 			{
 				entity.ProjectId = project.Id;
-				entity = await _nonTrasparentBuildingElemetService.CreateAndAssignToUser(entity);
+				if (entity.Id == new Int32())
+				{//NEW
+					entity = await _nonTrasparentBuildingElemetService.CreateAndAssignToUser(entity);
+				}
+				else
+				{//UPDATE
+					entity = await _nonTrasparentBuildingElemetService.Update(entity);
+				}
+				
 			}
 				
-			return Json((mapperDto.MapToDto(entity)));
+			return Json((mapperDtoNonTransparentBulidingElement.MapToDto(entity)));
 		}
 
 		[HttpDelete]
@@ -124,10 +160,44 @@ namespace EnergetskiPregled.Controllers
 		[HttpPost]
 		public async Task<JsonResult> Update([FromBody]NonTrasparentBuildingElemetDto dto)
 		{
-			var mapperDto = _mapper.GetMapper<NonTrasparentBuildingElemet, NonTrasparentBuildingElemetDto>();
-			NonTrasparentBuildingElemet entity = mapperDto.MapToEntity(dto, _nonTrasparentBuildingElemetService.Get(dto.Id));
+			var mapperDtoNonTransparentBulidingElement = _mapper.GetMapper<NonTrasparentBuildingElemet, NonTrasparentBuildingElemetDto>();
+			var mapperDtoMaterialThickness = _mapper.GetMapper<MaterialThickness, MaterialThicknessDto>();
+
+			//Extract user and project
+			ApplicationUser user = await GetUserAsync();
+			Project project = user.Projects.FirstOrDefault();//TODO take passed project id when there is support for more then one project
+			if (project == null)
+			{
+				return Json(null);
+			}
+			NonTrasparentBuildingElemet buildingELement = _nonTrasparentBuildingElemetService.Get(dto.Id, project.Id);
+
+
+			NonTrasparentBuildingElemet entity = mapperDtoNonTransparentBulidingElement.MapToEntity(dto, buildingELement);
+			entity.ProjectId = buildingELement.Project.Id;
+
+			//DEAL with MAterial Thickness children
+			foreach (var item in dto.MaterialsUsed?? new List<MaterialThicknessDto>())
+			{
+				if (item.Id == new int())
+				{//new
+					entity.MaterialsUsed.Add(mapperDtoMaterialThickness.MapToEntity(item, new MaterialThickness()));
+				}
+				else
+				{//updated
+					var tmp = entity.MaterialsUsed.FirstOrDefault(x => x.Id == item.Id);
+					entity.MaterialsUsed.Remove(tmp);
+					entity.MaterialsUsed.Add(mapperDtoMaterialThickness.MapToEntity(item, tmp));
+				}
+			}
+			List<int> idsToBeRemoved = entity.MaterialsUsed.Select(go => go.Id).Except(dto.MaterialsUsed.Select(go1 => go1.Id)).ToList();
+			foreach (var item in idsToBeRemoved)
+			{//DELETED
+				entity.MaterialsUsed.Remove(entity.MaterialsUsed.FirstOrDefault(go => go.Id == item));
+			}
+
 			entity = await _nonTrasparentBuildingElemetService.Update(entity);
-			return Json((mapperDto.MapToDto(entity)));
+			return Json((mapperDtoNonTransparentBulidingElement.MapToDto(entity)));
 		}
 	}
 }

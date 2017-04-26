@@ -24,43 +24,36 @@ namespace EnergetskiPregled.Services
 
 		public NonTrasparentBuildingElemet Get(int id)
 		{
-			return _dbContext.NonTrasparentBuildingElemets
-				.Include(x => x.Project)
-				.SingleOrDefault(x => x.Id == id && !x.IsArchived);
+			return _dbContext.NonTrasparentBuildingElemets.Where(x => x.Id == id && !x.IsArchived).Include(x => x.MaterialsUsed).ThenInclude(x => x.Material).FirstOrDefault();
 		}
 
 		public NonTrasparentBuildingElemet Get(int id, int projectId)
 		{
-			NonTrasparentBuildingElemet NonTrasparentBuildingElemet = Get(id);
-
-			if (NonTrasparentBuildingElemet != null && NonTrasparentBuildingElemet.Project.Id == projectId)
-				return NonTrasparentBuildingElemet;
-			else
-				return null;
+			return _dbContext.NonTrasparentBuildingElemets.Where(x => x.Id == id && !x.IsArchived && x.Project.Id == projectId).Include(x => x.MaterialsUsed).ThenInclude(x => x.Material).FirstOrDefault();
 		}
 
 
-		public QueryResponse<NonTrasparentBuildingElemet> List(BaseQuery query, int projectId)
-		{
-			IQueryable<NonTrasparentBuildingElemet> NonTrasparentBuildingElemets = _dbContext.NonTrasparentBuildingElemets
-				.Include(x => x.Project)
-				.Where(x => !x.IsArchived && x.ProjectId == projectId);
+		//public QueryResponse<NonTrasparentBuildingElemet> List(BaseQuery query, int projectId)
+		//{
+		//	IQueryable<NonTrasparentBuildingElemet> NonTrasparentBuildingElemets = _dbContext.NonTrasparentBuildingElemets
+		//		.Include(x => x.Project)
+		//		.Where(x => !x.IsArchived && x.ProjectId == projectId);
 
-			NonTrasparentBuildingElemets = ApplySortAndOrder(NonTrasparentBuildingElemets, query);
+		//	NonTrasparentBuildingElemets = ApplySortAndOrder(NonTrasparentBuildingElemets, query);
 
-			var result = new QueryResponse<NonTrasparentBuildingElemet>
-			{
-				Total = NonTrasparentBuildingElemets.Count(),
-				PageIndex = query.PageValue,
-				PageSize = query.PageSizeValue,
-				List = NonTrasparentBuildingElemets.ApplyPaging(query).ToList()
-			};
-			return result;
-		}
+		//	var result = new QueryResponse<NonTrasparentBuildingElemet>
+		//	{
+		//		Total = NonTrasparentBuildingElemets.Count(),
+		//		PageIndex = query.PageValue,
+		//		PageSize = query.PageSizeValue,
+		//		List = NonTrasparentBuildingElemets.ApplyPaging(query).ToList()
+		//	};
+		//	return result;
+		//}
 
 		public List<NonTrasparentBuildingElemet> ListAll(int projectId)
 		{
-			IQueryable<NonTrasparentBuildingElemet> devices = _dbContext.NonTrasparentBuildingElemets.Where(x => !x.IsArchived && x.Project.Id == projectId);
+			IQueryable<NonTrasparentBuildingElemet> devices = _dbContext.NonTrasparentBuildingElemets.Where(x => !x.IsArchived && x.Project.Id == projectId).Include(x => x.MaterialsUsed).ThenInclude(x=>x.Material);
 			return devices.ToList();
 		}
 
@@ -91,9 +84,18 @@ namespace EnergetskiPregled.Services
 
 		public async Task<NonTrasparentBuildingElemet> Update(NonTrasparentBuildingElemet nonTrasparentBuildingElemet)
 		{
-			_dbContext.NonTrasparentBuildingElemets.Update(nonTrasparentBuildingElemet);
-			await _dbContext.SaveChangesAsync();
+			try
+			{
+				_dbContext.NonTrasparentBuildingElemets.Update(nonTrasparentBuildingElemet);
+				await _dbContext.SaveChangesAsync();
 
+			}
+			catch (Exception ex)
+			{
+				var z = 2;
+				throw;
+			}
+			
 			return Get(nonTrasparentBuildingElemet.Id);
 		}
 

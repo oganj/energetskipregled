@@ -27,7 +27,6 @@
 					vm.constructions = data;
 					_.map(vm.constructions, function (construction) { tableValuesCalculate(construction) })
 				}
-
 			});
 
 			dataservice.materialCategory.getList().then(function (data) {
@@ -121,6 +120,7 @@
 		vm.addNewConstruction = function (ev) {
 			ev.stopPropagation();
 			var construction = {
+				id:0,
 				name: 'Spoljni zid',
 				code: 'SZ01',
 				materialsUsed: [],
@@ -163,9 +163,16 @@
 
 		vm.saveConstruction = function (ev, construction) {
 			ev.stopPropagation();
-			dataservice.nontransparentConstruction.create(construction).then(function (data) {
-				$mdSimpleToast.show('Uspešno snimljena konstrukcija!');
-			});
+			if (construction.Id != 0) {
+				dataservice.nontransparentConstruction.update(construction).then(function (data) {
+					$mdSimpleToast.show('Uspešno snimljena konstrukcija!');
+				});
+			}
+			else {
+				dataservice.nontransparentConstruction.create(construction).then(function (data) {
+					$mdSimpleToast.show('Uspešno snimljena konstrukcija!');
+				});
+			}
 		};
 
 		vm.removeConsruction = function (ev, construction) {

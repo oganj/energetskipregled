@@ -7,8 +7,12 @@ namespace EnergetskiPregled.Contracts.Data
 {
     public class NonTrasparentBuildingElemetDto
     {
+		public NonTrasparentBuildingElemetDto()
+		{
+			MaterialsUsed = new List<MaterialThicknessDto>();
+		}
 		public virtual int Id { get; set; }
-		public virtual int Name { get; set; }
+		public virtual string Name { get; set; }
 		public virtual string Code { get; set; }
 
 		public virtual ICollection<MaterialThicknessDto> MaterialsUsed { get; set; }

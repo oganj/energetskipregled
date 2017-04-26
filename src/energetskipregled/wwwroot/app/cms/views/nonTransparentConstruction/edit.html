@@ -23,7 +23,7 @@
 				<md-input-container flex>
 					<label>Materijala</label>
 					<md-select name="material" ng-model="vm.materialThickness.materialId" required>
-						<md-option ng-repeat="material in vm.materials" value="{{material.id}}">{{material.name}} - {{material.density}}kg/m3</md-option>
+						<md-option ng-repeat="material in vm.materials|filterByMaterialCategory:vm.materialThickness.material.categoryId" value="{{material.id}}">{{material.name}} - {{material.density}}kg/m3</md-option>
 					</md-select>
 					<div ng-messages="form.material.$error" ng-class="{ 'ng-messages-fix' : !form.material.$touched}">
 						<div ng-message="required">Ovo polje je neophodno.</div>
