@@ -6,11 +6,13 @@
 				Dodaj novu konstrukciju
 			</md-button>
 		</div>
-
+		<div flex>
+			
+		</div>
 		<md-grid-list md-cols="1"
-					  md-row-height="32:9"
+					  md-row-height="400px"
 					  md-gutter="8px" md-gutter-gt-sm="4px"
-					  style="background-color:lightgray">
+					  style="background-color:#efeffb">
 
 			<md-grid-tile ng-repeat="construction in vm.constructions | orderBy: 'lastModifiedAt':true">
 				<md-grid-tile-header flex-align="center center">
@@ -41,27 +43,23 @@
 					}
 
 						th:hover {
-							background-color: aquamarine;
+							background-color: rgb(63,81,181);
+							color:white;
 						}
 				</style>
-
-				
-				
+				<div style="position: absolute; top: 50px; width: 100%;">
 					<table style="width:100%">
 						<tr>
 							<th>Materijal</th>
-							<th>Debljina</th>
+							<th>Debljina<md-tooltip md-direction="top">Debljina dj [cm]</md-tooltip></th>
 							<th>Rj [m2K/W]<md-tooltip md-direction="top">Otpornost prolazu toplote sloja Rj [m2K/W]</md-tooltip></th>
-							<th>
-								Rm[m2K/W]
-								<md-tooltip md-direction="top">onOtpornost prolazu toplote sloja Rj [m2K/W]</md-tooltip>
-							</th>
-							<th>U[w/m2K]</th>
-							<th>θj[C°]</th>
-							<th>θj[C°]</th>
-							<th>p'[kPa]</th>
-							<th>p[kPa]</th>
-							<th>Sd[m]</th>
+							<th>Rm[m2K/W]<md-tooltip md-direction="top">Otpornost prolazu toplote Rm [m2K/W]</md-tooltip></th>
+							<th>U[w/m2K]<md-tooltip md-direction="top">Koeficijent prolaza toplote U [w/m2K]</md-tooltip></th>
+							<th>θj[C°]<md-tooltip md-direction="top">Temperatura na  granicama provera kondenzacije θj [C°]</md-tooltip></th>
+							<th>θj[C°]<md-tooltip md-direction="top">Temperatura na granicama, raspodela temeperature θj [C°]</md-tooltip></th>
+							<th>p'[kPa]<md-tooltip md-direction="top">Parcijalni pritisci vodene pare p' [kPa]</md-tooltip></th>
+							<th>p[kPa]<md-tooltip md-direction="top">Pritisci zasićenja vodene pare p [kPa]</md-tooltip></th>
+							<th>Sd[m]<md-tooltip md-direction="top">Difuzija vodene pare Sd=µ*d [m]</md-tooltip></th>
 						</tr>
 						<tr>
 							<td>UNUTRA</td>
@@ -70,10 +68,9 @@
 							<td>{{construction.tetaj2[0] | number:2}}</td>
 							<td>{{construction.p1[0] | number:2}}</td>
 							<td></td>
-							<td>r [m]</td>
+							<td>r[m]</td>
 
 						</tr>
-
 
 						<tr>
 							<td>Otpor prelazu toplote na unutrašnju površinu, Rsi</td>
@@ -88,7 +85,7 @@
 							<td></td>
 						</tr>
 
-						<tr ng-repeat="material in construction.materialsUsed">
+						<tr ng-repeat="material in construction.materialsUsed" class="table-row-hover-behaviour">
 							<td>{{material.material.name}} - {{material.material.density}}kg/m³</td>
 							<td>{{material.thickness}}</td>
 							<td>{{construction.rj[2 + construction.materialsUsed.indexOf(material)] | number:4}}</td>
@@ -101,8 +98,8 @@
 							<td>{{construction.sd[2 + construction.materialsUsed.indexOf(material)] | number:2}}</td>
 						</tr>
 						<tr>
-							<td colspan="10" ng-click="vm.addNewMaterial($event,construction)">
-								Dodaj novu sloj materijala
+							<td colspan="10" ng-click="vm.addNewMaterial($event,construction)" style="background-color: rgb(63,81,181); color:white;">
+								Dodaj nov sloj materijala
 							</td>
 						</tr>
 
@@ -132,6 +129,33 @@
 						</tr>
 						<tr></tr>
 					</table>
+					
+				</div>
+				<div style="position: absolute; left: 0px; bottom:0px; width:100%;" flex>
+					<div style="width:22%;  display: inline-block;">
+						<canvas id="base" class="chart-bar"
+								chart-data="data" chart-labels="labels" chart-colors="colors"
+								chart-dataset-override="datasetOverride"></canvas>
+					</div>
+					<div style="width:22%;  display: inline-block;">
+						<canvas id="base" class="chart-bar"
+								chart-data="data" chart-labels="labels" chart-colors="colors"
+								chart-dataset-override="datasetOverride"></canvas>
+					</div>
+					<div style="width:22%;  display: inline-block;">
+						<canvas id="base" class="chart-bar"
+								chart-data="data" chart-labels="labels" chart-colors="colors"
+								chart-dataset-override="datasetOverride"></canvas>
+					</div>
+					<div style="width:22%;  display: inline-block;">
+						<canvas id="base" class="chart-bar"
+								chart-data="data" chart-labels="labels" chart-colors="colors"
+								chart-dataset-override="datasetOverride"></canvas>
+					</div>
+			
+				</div>
+				
+					
 				
 
 

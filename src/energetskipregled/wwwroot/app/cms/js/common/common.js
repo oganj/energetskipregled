@@ -8,6 +8,7 @@
 		'ngAnimate',
 		'ngMaterial',
 		'ngMessages',
-		'md.data.table'
+		'md.data.table',
+		'chart.js'
 	]);
 })();
