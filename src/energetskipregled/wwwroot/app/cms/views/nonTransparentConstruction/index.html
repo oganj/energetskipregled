@@ -7,11 +7,11 @@
 			</md-button>
 		</div>
 		<div flex>
-			
+
 		</div>
 		<md-grid-list md-cols="1"
-					  md-row-height="400px"
-					  md-gutter="8px" md-gutter-gt-sm="4px"
+					  md-row-height="500px"
+					  md-gutter="20px" md-gutter-gt-sm="4px"
 					  style="background-color:#efeffb">
 
 			<md-grid-tile ng-repeat="construction in vm.constructions | orderBy: 'lastModifiedAt':true">
@@ -42,10 +42,14 @@
 						font-size: 0.7em;
 					}
 
-						th:hover {
-							background-color: rgb(63,81,181);
-							color:white;
-						}
+					th:hover {
+						background-color: rgb(63,81,181);
+						color: white;
+					}
+
+					.editable:hover {
+						background-color: #b2bae2;
+					}
 				</style>
 				<div style="position: absolute; top: 50px; width: 100%;">
 					<table style="width:100%">
@@ -84,8 +88,8 @@
 							<td>{{construction.p2[1] | number:2}}</td>
 							<td></td>
 						</tr>
-
-						<tr ng-repeat="material in construction.materialsUsed" class="table-row-hover-behaviour">
+						
+						<tr ng-repeat="material in construction.materialsUsed" class="editable" ng-click="vm.addOrUpdateMaterialThickness($event,construction,material)">
 							<td>{{material.material.name}} - {{material.material.density}}kg/m³</td>
 							<td>{{material.thickness}}</td>
 							<td>{{construction.rj[2 + construction.materialsUsed.indexOf(material)] | number:4}}</td>
@@ -98,7 +102,7 @@
 							<td>{{construction.sd[2 + construction.materialsUsed.indexOf(material)] | number:2}}</td>
 						</tr>
 						<tr>
-							<td colspan="10" ng-click="vm.addNewMaterial($event,construction)" style="background-color: rgb(63,81,181); color:white;">
+							<td colspan="10" ng-click="vm.addOrUpdateMaterialThickness($event,construction)" style="background-color: rgb(63,81,181); color:white;">
 								Dodaj nov sloj materijala
 							</td>
 						</tr>
@@ -107,7 +111,7 @@
 							<td>Otpor prelazu toplote sa spoljne površine, Rse</td>
 							<td>UZ ZID</td>
 							<td>{{construction.rj[2 + construction.materialsUsed.length]}}</td>
-							<td>{{construction.rm[2 + construction.materialsUsed.indexOf(material)] | number:2}}</td>
+							<td>{{construction.rm[2 + construction.materialsUsed.length] | number:2}}</td>
 							<td>{{construction.u[2 + construction.materialsUsed.length] | number:2}}</td>
 							<td>{{construction.tetaj1[2 + construction.materialsUsed.length] | number:2}}</td>
 							<td>{{construction.tetaj2[2 + construction.materialsUsed.length] | number:2}}</td>
@@ -129,34 +133,42 @@
 						</tr>
 						<tr></tr>
 					</table>
-					
+
 				</div>
 				<div style="position: absolute; left: 0px; bottom:0px; width:100%;" flex>
-					<div style="width:22%;  display: inline-block;">
-						<canvas id="base" class="chart-bar"
-								chart-data="data" chart-labels="labels" chart-colors="colors"
-								chart-dataset-override="datasetOverride"></canvas>
+					<div style="width:24%;  display: inline-block;">
+						<!--<canvas id="base" class="chart chart-line" chart-options="{ legend: { display: true } }" chart-legend="true"
+								chart-data="construction.rm" chart-labels="construction.chartLabels" chart-series="construction.chart1Caption" chart-colors="construction.colors"></canvas>-->
+						<canvas class="chart-line" chart-options="{legend:{ display: true }}"
+								chart-data="[construction.rm]" chart-labels="construction.chartLabels" chart-colors="['#f7464a']"
+								chart-dataset-override="vm.datasetOverride1"></canvas> 
 					</div>
-					<div style="width:22%;  display: inline-block;">
-						<canvas id="base" class="chart-bar"
-								chart-data="data" chart-labels="labels" chart-colors="colors"
-								chart-dataset-override="datasetOverride"></canvas>
+					<div style="width:24%;  display: inline-block;">
+						<!--<canvas id="base" class="chart chart-line"
+								chart-data="construction.tetaj2" chart-labels="construction.chartLabels" chart-series="construction.chart2Caption"></canvas>-->
+						<canvas class="chart-line" chart-options="{legend:{ display: true }}"
+								chart-data="[construction.tetaj2]" chart-labels="construction.chartLabels"  chart-colors="['#46bfbd']"
+								chart-dataset-override="vm.datasetOverride2"></canvas> 
 					</div>
-					<div style="width:22%;  display: inline-block;">
-						<canvas id="base" class="chart-bar"
-								chart-data="data" chart-labels="labels" chart-colors="colors"
-								chart-dataset-override="datasetOverride"></canvas>
+					<div style="width:24%;  display: inline-block;">
+						<!--<canvas id="base" class="chart chart-line"
+								chart-data="construction.tetaj1" chart-labels="construction.chartLabels" chart-series="construction.chart3Caption"></canvas>-->
+						<canvas class="chart-line" chart-options="{legend:{ display: true }}"
+								chart-data="[construction.tetaj1]" chart-labels="construction.chartLabels" chart-colors="['#fdb45c']"
+								chart-dataset-override="vm.datasetOverride3"></canvas> 
 					</div>
-					<div style="width:22%;  display: inline-block;">
-						<canvas id="base" class="chart-bar"
-								chart-data="data" chart-labels="labels" chart-colors="colors"
-								chart-dataset-override="datasetOverride"></canvas>
+					<div style="width:24%;  display: inline-block;">
+						<!--<canvas id="base" class="chart chart-bar"
+								chart-data="construction.p1" chart-labels="construction.chartLabels" chart-series="construction.chart4Caption"></canvas>-->
+						<canvas class="chart-line" chart-options="{legend:{ display: true }}"
+								chart-data="[construction.p1]" chart-labels="construction.chartLabels" chart-colors="['#97bbcd']"
+								chart-dataset-override="vm.datasetOverride4"></canvas> 
 					</div>
-			
+
 				</div>
-				
-					
-				
+
+
+
 
 
 

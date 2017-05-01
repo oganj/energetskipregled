@@ -13,16 +13,16 @@
 			<div class="md-dialog-content" layout="column">
 				<md-input-container flex>
 					<label>Kategorija materijala</label>
-					<md-select name="category" ng-model="vm.materialThickness.material.categoryId" required  md-auto-focus>
+					<md-select name="category" ng-model="vm.materialThickness.material.categoryId" md-auto-focus>
 						<md-option ng-repeat="category in vm.categories" value="{{category.id}}">{{category.name}}</md-option>
-					</md-select>
+					</md-select>					
 					<div ng-messages="form.category.$error" ng-class="{ 'ng-messages-fix' : !form.category.$touched}">
-						<div ng-message="required">Ovo polje je neophodno.</div>
-					</div>
+						<div ng-message="required">Ovo polje je neophodno.</div>						
+					</div>					
 				</md-input-container>
 				<md-input-container flex>
 					<label>Materijala</label>
-					<md-select name="material" ng-model="vm.materialThickness.materialId" required>
+					<md-select name="material" ng-model="vm.materialThickness.materialId">
 						<md-option ng-repeat="material in vm.materials|filterByMaterialCategory:vm.materialThickness.material.categoryId" value="{{material.id}}">{{material.name}} - {{material.density}}kg/m3</md-option>
 					</md-select>
 					<div ng-messages="form.material.$error" ng-class="{ 'ng-messages-fix' : !form.material.$touched}">
@@ -31,7 +31,7 @@
 				</md-input-container>
 				<md-input-container flex>
 					<label>Debljina [cm]</label>
-					<input name="thickness" ng-model="vm.materialThickness.thickness" required type="number" step="0.1" min="0.1"
+					<input name="thickness" ng-model="vm.materialThickness.thickness" type="number" step="0.1" min="0.1"
 						   ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" />
 					<div ng-messages="form.thickness.$error" ng-class="{ 'ng-messages-fix' : !form.thickness.$touched}">
 						<div ng-message="required">Ovo polje je neophodno.</div>
@@ -40,14 +40,22 @@
 				</md-input-container>
 			</div>
 		</md-dialog-content>
+		
+		<!--Operation buttons-->
 		<md-dialog-actions layout="row">
-			<span flex></span>
+		
 			<md-button ng-click="vm.cancel()" class="md-raised md-primary">
 				Odustani
 			</md-button>
-			<md-button ng-click="vm.save()" class="md-raised md-primary" ng-disabled="form.$invalid">
+		
+			<md-button ng-click="vm.save()" class="md-raised md-primary" ng-disabled="!(vm.materialThickness.material.categoryId && vm.materialThickness.materialId && vm.materialThickness.thickness)">
 				{{vm.title}}
 			</md-button>
+			
+			<md-button ng-if="vm.showDeleteButton" ng-click="vm.delete()" class="md-raised md-primary" ng-disabled="!(vm.materialThickness.material.categoryId && vm.materialThickness.materialId && vm.materialThickness.thickness)">
+				Obriši
+			</md-button>
 		</md-dialog-actions>
+
 	</form>
 </md-dialog>

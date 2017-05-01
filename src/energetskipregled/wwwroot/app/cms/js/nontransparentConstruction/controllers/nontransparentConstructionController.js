@@ -20,29 +20,75 @@
 			rmMax: 0.13,
 			fii: 0.55,//Vlažnost  ϕi
 		}
+		
+		//vm.chartDataSetOvrried = function (chartName) {
+		//	return [{
+		//		label: chartName,
+		//		borderWidth: 3,
+		//		hoverBackgroundColor: 'rgba(255,99,132,0.2)',
+		//		hoverBorderColor: 'rgba(255,99,132,1)',
+		//		type: 'line',
+
+		//	}];
+		//}
+
+		var refreshChartLabels = function (construction) {
+			construction.chartLabels = [];
+			construction.chartLabels.push("UNTURA");
+			construction.chartLabels.push("Rsi");
+			_.map(construction.materialsUsed, function (material) { construction.chartLabels.push(material.material.name.slice(0, 8)) })
+			construction.chartLabels.push("Rse");
+			construction.chartLabels.push("SPOLJA");
+		};
+
+		vm.datasetOverride1 = [{
+			label: "Otpornost prolazu toplote Rm[m2K/W]",
+			borderWidth: 3,
+			hoverBackgroundColor: "rgba(0,255,33,0.2)",
+			hoverBorderColor: "rgba(255,99,132,1)",
+			type: 'line',
+		}];
+		vm.datasetOverride2 = [{
+			label: "Temp na granicama, raspodela temep θj[C°]",
+			borderWidth: 3,
+			hoverBackgroundColor: "rgba(63,81,181,0.2)",
+			hoverBorderColor: "rgba(255,99,132,1)",
+			type: 'line',
+		}];
+		vm.datasetOverride3 = [{
+			label: "Temp na granicama, provera kondenzacije θj[C°]",
+			borderWidth: 3,
+			hoverBackgroundColor: "rgba(245,0,87,0.2)",
+			hoverBorderColor: "rgba(255,99,132,1)",
+			type: 'line',
+		}];
+		vm.datasetOverride4 = [{
+			label: "Parcijalni pritisci vodene pare p'[kPa]",
+			borderWidth: 3,
+			hoverBackgroundColor: "rgba(164,0,245,0.2)",
+			hoverBorderColor: "rgba(255,99,132,1)",
+			type: 'line',
+		}];
+
+
 
 		//Chart test
-		 $scope.colors = ['#45b7cd', '#ff6384', '#ff8e72'];
+		$scope.colors = ['#45b7cd', '#ff6384', '#ff8e72'];
 
-		$scope.labels = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+		$scope.labels = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Sunday1'];
 		$scope.data = [
-		  [65, -59, 80, 81, -56, 55, -40],
-		  [28, 48, -40, 19, 86, 27, 90]
+		  //[28, 48, -40, 19, 86, 27, 90],
+		  //[28, 48, -40, 19, 86, 27, 90, 80]
+		  [20.11223265, 15.321561651, 13.316561, 13.65465, 10.216151, 10.255463163, 1.93, -5]
 		];
-		$scope.datasetOverride = [
-		  {
-			label: "Bar chart",
-			borderWidth: 1,
-			type: 'bar'
-		  },
-		  {
-			label: "Line chart",
+		$scope.datasetOverride = [{
+			label: "Temp na granicama, raspodela temep θj[C°]",
 			borderWidth: 3,
-			hoverBackgroundColor: "rgba(255,99,132,0.4)",
+			hoverBackgroundColor: "rgba(255,99,132,0.2)",
 			hoverBorderColor: "rgba(255,99,132,1)",
-			type: 'line'
-		  }
-		];
+			type: 'line',
+			
+		}];
 		//end char test
 		var init = function () {
 			dataservice.nontransparentConstruction.getList().then(function (data) {
@@ -61,9 +107,9 @@
 			});
 		};
 
-		var calculate = function (paramName, construction, index){
+		var calculate = function (paramName, construction, index) {
 			switch (paramName) {
-				
+
 				case 'U':
 					return 1 / construction.rm[index];
 				case 'tetaj1': //O5-((O5-$O$12)/$L$12)*L6
@@ -71,13 +117,13 @@
 				case 'tetaj2': //P5-((P5-$P$12)/$L$12)*L6
 					return construction.tetaj2[index - 1] - ((construction.tetaj2[index - 1] - vm.constructionFixValues.tetaj2Min) / construction.rj[3 + construction.materialsUsed.length]) * construction.rj[index];
 				case 'p1':
-					if(construction.tetaj2[index] > 0) {
+					if (construction.tetaj2[index] > 0) {
 						return 0.6107 * Math.pow((1 + construction.tetaj1[index] / 109.8), 8.02);
 					}
 					else {
 						return 0.6107 * Math.pow((1 + construction.tetaj1[index] / 149), 12.03);
 					}
-					
+
 				case 'p2'://=Q6*C15(fii)
 					return construction.p1[index] * vm.constructionFixValues.fii;
 				default:
@@ -97,7 +143,7 @@
 			construction.rj = []; construction.rj[1] = vm.constructionFixValues.rjMax;
 			construction.rm = []; construction.rm[1] = vm.constructionFixValues.rmMax;
 			construction.u = []; construction.u[1] = calculate('U', construction, 1);
-			
+
 			//First Calculate rj,rm, u
 			for (var i = 0; i < construction.materialsUsed.length; i++) {
 				construction.rj[2 + i] = construction.materialsUsed[i].thickness / (construction.materialsUsed[i].material.heatConduction * 100);
@@ -108,7 +154,9 @@
 			//end rows
 			construction.rj[2 + construction.materialsUsed.length] = vm.constructionFixValues.rjMin;
 			construction.rj[3 + construction.materialsUsed.length] = construction.rj.reduce((a, b) => a + b, 0);//sum
-			
+			construction.rm[2 + construction.materialsUsed.length] = construction.rj[2 + construction.materialsUsed.length] + construction.rm[1 + construction.materialsUsed.length];
+			construction.u[2 + construction.materialsUsed.length] = calculate('U', construction, 2 + construction.materialsUsed.length);
+
 			// row 1 and on
 			construction.tetaj1[1] = calculate('tetaj1', construction, 1);//dependent on rj-end
 			construction.tetaj2[1] = calculate('tetaj2', construction, 1);//dependent on rj-end
@@ -132,18 +180,20 @@
 			construction.tetaj2[index] = vm.constructionFixValues.tetaj2Min;
 			construction.p1[index] = calculate('p1', construction, index);
 			construction.sd[index] = construction.sd.reduce((a, b) => a + b, 0);//sum
+
+			refreshChartLabels(construction);
 		}
 
 
 
-		
+
 
 		init();
 
 		vm.addNewConstruction = function (ev) {
 			ev.stopPropagation();
 			var construction = {
-				id:0,
+				id: 0,
 				name: 'Spoljni zid',
 				code: 'SZ01',
 				materialsUsed: [],
@@ -157,7 +207,7 @@
 			vm.constructions.push(construction);
 		};
 
-		vm.addNewMaterial = function (ev, construction) {
+		vm.addOrUpdateMaterialThickness = function (ev, construction, materialThickness) {
 			ev.stopPropagation();
 			$mdDialog.show({
 				controller: 'editNontransparentConstructionController as vm',
@@ -166,7 +216,7 @@
 				targetEvent: ev,
 				locals: {
 					materialsUsed: construction.materialsUsed,
-					materialThicknessId: null,
+					materialThickness: materialThickness,
 					categories: vm.categories,
 					materials: vm.materials,
 				},
@@ -175,7 +225,7 @@
 			})
 			.then(function (answer) {
 				if (answer) {
-					$mdSimpleToast.show('Uspešno dodat!');
+					$mdSimpleToast.show('Uspešno!');
 					tableValuesCalculate(construction);
 				} else {
 					$mdSimpleToast.show('Došlo je do greške!');
@@ -251,49 +301,5 @@
 			});
 		};
 
-		//var tableValuesInit = function (construction) {
-		//	//Colons 
-		//	construction.thicknes = [];
-		//	construction.rj = [];
-		//	construction.rm = [];
-		//	construction.u = [];
-		//	construction.tetaj1 = [];
-		//	construction.tetaj2 = [];
-		//	construction.p1 = [];
-		//	construction.p2 = [];
-		//	construction.sd = [];
-
-		//	//FIX
-		//	construction.fii = 0.55;//Vlažnost  ϕi
-
-		//	//First calculations
-		//	//row: 0
-		//	construction.tetaj1[0] = 20.00;
-		//	construction.tetaj2[0] = 20.00;
-		//	construction.p1[0] = calculate('p1',construction,0);
-
-		//	//REACALCULATE
-		//	//row: 1
-		//	construction.rj[1] = 0.13;
-		//	construction.rm[1] = 0.13;
-		//	construction.u[1] = calculate('U',construction, 1);
-		//	//moved after other calculations
-		//	construction.tetaj2[1] = 17.65;
-
-
-		//	//row: end - 1
-		//	construction.rj[2] = 0.04;
-
-		//	//row: end
-		//	construction.rj[3] = 1.94;//construction.rj.reduce((a, b) => a + b, 0);//sum
-		//	construction.tetaj1[3] = -5.00;
-		//	construction.tetaj2[3] = -15.00;
-
-		//	//row: 1 AGAIN - because it's dependent on row-end
-		//	construction.tetaj1[1] = calculate('tetaj1', construction, 1);//dependent on rj-end
-		//	construction.tetaj2[1] = calculate('tetaj2', construction, 1);//dependent on rj-end
-		//	construction.p1[1] = calculate('p1', construction, 1);//dependent on tetaj1
-		//	construction.p2[1] = calculate('p2', construction, 1);//dependent on p1
-		//};
 	}
 })();
