@@ -13,10 +13,14 @@
 		'dataservice.nontransparentConstruction',
 		'dataservice.materialCategory',
 		'dataservice.material',
+		'dataservice.tbe',
+		'dataservice.tbeMaterial',
+		'dataservice.tbeFrame',
+		'dataservice.tbeHeatCorrectionFactor',
 		dataservice
 	]);
-
-	function dataservice(player, user, construction, project, transparentConstruction, nontransparentConstruction, materialCategory, material) {
+	
+	function dataservice(player, user, construction, project, transparentConstruction, nontransparentConstruction, materialCategory, material, tbe, tbeMaterial, tbeFrame, tbeHeatCorrectionFactor) {
 		// Define the functions and properties to reveal.
 		var service = {
 			player: player,
@@ -26,7 +30,11 @@
 			transparentConstruction: transparentConstruction,
 			nontransparentConstruction: nontransparentConstruction,
 			materialCategory: materialCategory,
-			material: material
+			material: material,
+			tbe: tbe,
+			tbeMaterial: tbeMaterial,
+			tbeFrame: tbeFrame,
+			tbeHeatCorrectionFactor: tbeHeatCorrectionFactor	
 		};
 
 		return service;

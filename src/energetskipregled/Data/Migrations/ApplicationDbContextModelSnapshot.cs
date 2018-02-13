@@ -228,6 +228,112 @@ namespace EnergetskiPregled.Data.Migrations
                     b.ToTable("Projects");
                 });
 
+            modelBuilder.Entity("EnergetskiPregled.Models.TBE", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<float>("Af");
+
+                    b.Property<float>("Ag");
+
+                    b.Property<float>("Height");
+
+                    b.Property<float>("Lg");
+
+                    b.Property<string>("POS");
+
+                    b.Property<int?>("TBEFrameId");
+
+                    b.Property<int?>("TBEHeatCorrectionFactorId");
+
+                    b.Property<int?>("TBEMaterialId");
+
+                    b.Property<float>("Width");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TBEFrameId");
+
+                    b.HasIndex("TBEHeatCorrectionFactorId");
+
+                    b.HasIndex("TBEMaterialId");
+
+                    b.ToTable("TBEs");
+                });
+
+            modelBuilder.Entity("EnergetskiPregled.Models.TBEFrame", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("CategoryId");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.Property<float>("Uf");
+
+                    b.Property<float>("g");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("TBEFrames");
+                });
+
+            modelBuilder.Entity("EnergetskiPregled.Models.TBEFrameCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("IsArchived");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TBEFrameCategorys");
+                });
+
+            modelBuilder.Entity("EnergetskiPregled.Models.TBEHeatCorrectionFactor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.Property<float>("PsiG");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TBEHeatCorrectionFactors");
+                });
+
+            modelBuilder.Entity("EnergetskiPregled.Models.TBEMaterial", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.Property<float>("Ug");
+
+                    b.Property<float>("g");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TBEMaterials");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -383,6 +489,31 @@ namespace EnergetskiPregled.Data.Migrations
                     b.HasOne("EnergetskiPregled.Models.ApplicationUser", "User")
                         .WithMany("Projects")
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("EnergetskiPregled.Models.TBE", b =>
+                {
+                    b.HasOne("EnergetskiPregled.Models.TBEFrame", "TBEFrame")
+                        .WithMany()
+                        .HasForeignKey("TBEFrameId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("EnergetskiPregled.Models.TBEHeatCorrectionFactor", "TBEHeatCorrectionFactor")
+                        .WithMany()
+                        .HasForeignKey("TBEHeatCorrectionFactorId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("EnergetskiPregled.Models.TBEMaterial", "TBEMaterial")
+                        .WithMany()
+                        .HasForeignKey("TBEMaterialId")
+                        .OnDelete(DeleteBehavior.SetNull);
+                });
+
+            modelBuilder.Entity("EnergetskiPregled.Models.TBEFrame", b =>
+                {
+                    b.HasOne("EnergetskiPregled.Models.TBEFrameCategory", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>

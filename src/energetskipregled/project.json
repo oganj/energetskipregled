@@ -1,6 +1,6 @@
 {
 	"userSecretsId": "aspnet-EnergetskiPregled-19f8d2af-f09c-406b-8ee8-4056e04c4025",
-	"version": "1.0.19",
+	"version": "1.0.20",
 	"dependencies": {
 		"Microsoft.NETCore.App": {
 			"version": "1.1.0",

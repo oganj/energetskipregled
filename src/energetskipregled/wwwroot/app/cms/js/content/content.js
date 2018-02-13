@@ -34,10 +34,10 @@
 				pageTrack: '/netransparentne-konstrukcije'
 			})
 			.when('/transparentne-konstrukcije', {
-				templateUrl: 'app/cms/views/transparentconstruction/index.html',
+				templateUrl: 'app/cms/views/transparentConstruction/index.html',
 				controller: 'trnsparentConstructionController as vm',
 				pageTrack: '/transparentne-konstrukcije'
-			})
+			})			
 			.otherwise({ redirectTo: '/' });
 
 		$mdThemingProvider.theme('default')

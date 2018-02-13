@@ -95,6 +95,13 @@ namespace EnergetskiPregled
 			services.AddTransient<IMaterialCategoryService, MaterialCategoryService>();
 			services.AddTransient<IMaterialService, MaterialService>();
 			services.AddTransient<INonTrasparentBuildingElemetService, NonTrasparentBuildingElemetService>();
+
+			services.AddTransient<ITBEService, TBEService>();
+			services.AddTransient<ITBEFrameCategoryService, TBEFrameCategoryService>();
+			services.AddTransient<ITBEFrameService, TBEFrameService>();
+			services.AddTransient<ITBEHeatCorrectionFactorService, TBEHeatCorrectionFactorService>();
+			services.AddTransient<ITBEMaterialService, TBEMaterialService>();
+
 			//services.AddTransient<IPlayerService, PlayerService>();
 			services.AddTransient<IPlayerService, PlayerService>();
 			services.AddTransient<IUserService, UserService>();

@@ -7,84 +7,92 @@
 	trnsparentConstructionController.$inject = ['$scope', 'dataservice', '$log', '$location', '$mdDialog', '$mdSimpleToast', '$rootScope'];
 	function trnsparentConstructionController($scope, dataservice, $log, $location, $mdDialog, $mdSimpleToast, $rootScope) {
 		var vm = this;
-		vm.players = [];
-		$rootScope.headerTitle = '';
+		vm.tbes = [];
+		vm.tbeMaterials = [];
+		vm.tbeHeatCorrectionFactors = [];
+		vm.tbeFrames = [];
 
 		var init = function () {
-			dataservice.player.getList().then(function (data) {
-				vm.players = data;
+			dataservice.tbe.getList().then(function (data) {
+				if (data) {
+					vm.tbes = data;
+					populateMaterials();
+					populateHeatCorrectionFactor();
+					populateFrames();
+					//_.map(vm.constructions, function (construction) { tableValuesCalculate(construction) })
+				}
+			});
+
+			dataservice.tbeMaterial.getList().then(function (data) {
+				vm.tbeMaterials = data;
+				populateMaterials()
+			});
+
+			dataservice.tbeFrame.getList().then(function (data) {
+				vm.tbeFrames = data;
+				populateFrames();
+			});
+
+			dataservice.tbeHeatCorrectionFactor.getList().then(function (data) {
+				vm.tbeHeatCorrectionFactors = data;
+				populateHeatCorrectionFactor();
+			});			
+		};
+
+		var populateMaterials = function () {
+			if (vm.tbes.length === 0 || vm.tbeMaterials.length === 0)
+				return;
+
+			_.each(vm.tbes, (tbe) => {
+				tbe.tbeMaterial = _.find(vm.tbeMaterials, (material) => { return material.id === tbe.tbeMaterialId })
+			});
+		};
+
+		var populateFrames = function () {
+			if (vm.tbes.length === 0 || vm.tbeFrames.length === 0)
+				return;
+
+			_.each(vm.tbes, (tbe) => {
+				tbe.tbeFrame = _.find(vm.tbeFrames, (tbeFrame) => { return tbeFrame.id === tbe.tbeFrameId })
+			});
+		};
+
+		var populateHeatCorrectionFactor = function () {
+			if (vm.tbes.length === 0 || vm.tbeHeatCorrectionFactors.length === 0)
+				return;
+
+			_.each(vm.tbes, (tbe) => {
+				tbe.tbeHeatCorrectionFactor = _.find(vm.tbeHeatCorrectionFactors, (heatCorrectionFactor) => { return heatCorrectionFactor.id === tbe.tbeHeatCorrectionFactorId })
 			});
 		};
 
 		init();
 
-		vm.addNewPlayer = function (ev) {
-			$mdDialog.show({
-				controller: 'editPlayerController as vm',
-				templateUrl: 'app/cms/views/player/edit.html?v=4',
-				parent: angular.element(document.body),
-				targetEvent: ev,
-				locals: {
-					playerId: null
-				},
-				clickOutsideToClose: true,
-				fullscreen: true // Only for -xs, -sm breakpoints.
-			})
-			.then(function (answer) {
-				if (answer) {
-					$mdSimpleToast.show('Player added!');
-					init();
-				} else {
-					$mdSimpleToast.show('Error occurred!');
-				}
-			}, function () {
-			});
-		};
-
-		vm.removePlayer = function (ev, playerId) {
+		vm.addOrUpdateMaterialThickness = function (ev, construction) {
 			ev.stopPropagation();
-			// Appending dialog to document.body to cover sidenav in docs app
-			var confirm = $mdDialog.confirm()
-					.title('Remove')
-					.textContent('Are you sure you want to remove player?')
-					.targetEvent(ev)
-					.ok('Yes')
-					.cancel('No');
-
-			$mdDialog.show(confirm).then(function () {
-				var ids = [];
-				ids.push(playerId);
-				dataservice.player.remove(ids).then(function (data) {
-					$mdSimpleToast.show('Player removed!');
-					init();
-				}, function (err) {
-					$mdSimpleToast.show('Error occurred!');
-				});
-			}, function () {
-			});
-		};
-
-		vm.editPlayer = function (ev, playerId) {
 			$mdDialog.show({
-				controller: 'editPlayerController as vm',
-				templateUrl: 'app/cms/views/player/edit.html?v=4',
+				controller: 'editNontransparentConstructionController as vm',
+				templateUrl: 'app/cms/views/nonTransparentConstruction/edit.html?v=4',
 				parent: angular.element(document.body),
 				targetEvent: ev,
 				locals: {
-					playerId: playerId
+					materialsUsed: construction.materialsUsed,
+					materialThickness: materialThickness,
+					categories: vm.categories,
+					materials: vm.materials,
 				},
 				clickOutsideToClose: true,
 				fullscreen: true // Only for -xs, -sm breakpoints.
 			})
 			.then(function (answer) {
 				if (answer) {
-					$mdSimpleToast.show('Player updated!');
-					init();
+					$mdSimpleToast.show('Uspešno!');
+					tableValuesCalculate(construction);
 				} else {
-					$mdSimpleToast.show('Error occurred!');
+					$mdSimpleToast.show('Došlo je do greške!');
 				}
 			}, function () {
 			});
-		};
+		}
 	}
 })();

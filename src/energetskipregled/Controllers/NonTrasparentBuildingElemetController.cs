@@ -72,32 +72,6 @@ namespace EnergetskiPregled.Controllers
 			return Json(responce);
 		}
 
-		//[HttpGet]
-		//public async Task<ActionResult> List([FromQuery]BaseQuery request, [FromQuery]int projectId)
-		//{
-		//	ApplicationUser user = await GetUserAsync();
-
-		//	QueryResponse<NonTrasparentBuildingElemet> result = new QueryResponse<NonTrasparentBuildingElemet>();
-
-		//	Project project = user.Projects.FirstOrDefault();//TODO take passed project id when there is support for more then one project
-		//	if (project != null)
-		//	{
-		//		result = _nonTrasparentBuildingElemetService.List(request, project.Id);
-		//	}
-			
-		//	var mapper = _mapper.GetMapper<NonTrasparentBuildingElemet, NonTrasparentBuildingElemetDto>();
-
-		//	var response = new BaseQueryResponse<NonTrasparentBuildingElemetDto>
-		//	{
-		//		Total = result.Total,
-		//		PageSize = result.PageSize,
-		//		PageIndex = result.PageIndex,
-		//		List = result.List.Select(mapper.MapToDto).ToList()
-		//	};
-
-		//	return Json(response);
-		//}
-
 		[HttpGet]
 		public async Task<ActionResult> Get([FromQuery]int id, [FromQuery]int projectId)
 		{
